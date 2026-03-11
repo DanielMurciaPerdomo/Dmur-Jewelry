@@ -26,7 +26,7 @@ Incluye:
   - Nombres en inglés para tablas y columnas internas (`products`, `materials`, etc.).
   - Textos visibles (nombre de producto, descripciones) pueden estar en español.
 - **Moneda**:
-  - Se asume una moneda principal (por defecto ARS, configurable en `settings`).
+  - Se asume una moneda principal (por defecto COP, configurable en `settings`).
 
 ---
 
