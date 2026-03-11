@@ -367,6 +367,77 @@ stones (1) ────< (N) product_stones (N) ────> (1) products
 settings: global configuration (1 row)
 ```
 
+Formal ER diagram (Mermaid):
+
+```mermaid
+erDiagram
+
+  MATERIALS ||--o{ PRODUCTS : "has material"
+  PRODUCT_TYPES ||--o{ PRODUCTS : "has type"
+
+  PRODUCTS ||--o{ PRODUCT_IMAGES : "has images"
+
+  PRODUCTS ||--o{ PRODUCT_STONES : "uses stone"
+  STONES ||--o{ PRODUCT_STONES : "linked in"
+
+  MATERIALS {
+    uuid id
+    text name
+    numeric material_value
+  }
+
+  PRODUCT_TYPES {
+    uuid id
+    text name
+    numeric type_value
+  }
+
+  PRODUCTS {
+    uuid id
+    text name
+    text slug
+    text description
+    uuid material_id
+    uuid product_type_id
+    text sku
+    numeric fixed_cost
+    numeric margin_percentage
+    numeric final_price
+    boolean active
+    boolean featured
+  }
+
+  STONES {
+    uuid id
+    text stone_type
+    text stone_size
+    numeric stone_value
+  }
+
+  PRODUCT_STONES {
+    uuid id
+    uuid product_id
+    uuid stone_id
+    integer quantity
+  }
+
+  PRODUCT_IMAGES {
+    uuid id
+    uuid product_id
+    text storage_path
+    text public_url
+    boolean is_primary
+    integer sort_order
+  }
+
+  SETTINGS {
+    uuid id
+    text whatsapp_number
+    text currency
+    text business_name
+  }
+```
+
 ---
 
 ## Price calculation notes
