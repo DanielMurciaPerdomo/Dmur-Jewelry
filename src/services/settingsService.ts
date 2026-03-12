@@ -17,3 +17,21 @@ export const getSettings = async (): Promise<Settings | null> => {
   return (data as Settings) ?? null;
 };
 
+export const updateSettings = async (
+  id: string,
+  payload: Partial<Pick<Settings, "whatsapp_number" | "currency" | "business_name">>
+): Promise<Settings> => {
+  const { data, error } = await supabase
+    .from("settings")
+    .update(payload)
+    .eq("id", id)
+    .select("*")
+    .single<Settings>();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+

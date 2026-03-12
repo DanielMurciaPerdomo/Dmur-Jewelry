@@ -50,6 +50,21 @@ No se expone registro público desde el frontend.
 
 ## 4. Modelo de datos (SQL)
 
+El esquema completo se mantiene ahora en la carpeta `supabase/` y está alineado con `Markdown/plan-base-de-datos.md` y la sección 6 de `Markdown/plan-Dmur.md`.
+
+- `supabase/01_schema.sql` → crea tablas, índices y triggers de `updated_at`.
+- `supabase/02_rls_policies.sql` → activa RLS y crea las policies.
+- `supabase/03_seeds.sql` → inserta datos de ejemplo (materiales, tipos, piedras, settings).
+
+Para aplicar cambios en el proyecto de Supabase **"D'MUR Joyería"**:
+
+1. Abre el **SQL Editor** en Supabase.
+2. Ejecuta primero el contenido de `supabase/01_schema.sql`.
+3. Ejecuta luego `supabase/02_rls_policies.sql`.
+4. Ejecuta finalmente `supabase/03_seeds.sql`.
+
+Las secciones siguientes mantienen una copia de referencia del SQL inicial, pero la fuente de verdad son los archivos de la carpeta `supabase/`.
+
 Ejecuta el siguiente SQL en el editor de SQL de Supabase (basado en `plan-base-de-datos.md` y sección 6 de `plan-Dmur.md`).
 
 ### 4.1. Tablas
@@ -193,6 +208,8 @@ alter table public.product_stones enable row level security;
 alter table public.settings enable row level security;
 ```
 
+> Nota: la definición actual de RLS/policies vive en `supabase/02_rls_policies.sql` y se basa en estas mismas reglas, usando `auth.role() = 'authenticated'` como criterio de admin (mientras solo exista la cuenta del joyero).
+
 ### 5.2. Políticas públicas (lectura anónima)
 
 ```sql
@@ -282,7 +299,7 @@ using (true)
 with check (true);
 ```
 
-Con esto se cumple la tabla de permisos de la sección 7 de `plan-Dmur.md`:
+Con esto (y con `supabase/02_rls_policies.sql`) se cumple la tabla de permisos de la sección 7 de `plan-Dmur.md`:
 
 - Visitante anónimo:
   - `SELECT` en productos (solo `active = true`), imágenes, materiales, tipos, piedras y settings.
@@ -355,4 +372,73 @@ A partir de este setup, otros agentes pueden:
 - Completar la lógica de `CarritoContext` (incluyendo `localStorage`).
 - Construir servicios más ricos sobre Supabase (joins, filtros, paginación).
 - Integrar Storage de Supabase para subir y gestionar imágenes de productos.
+ 
+## 10. Estado actual del backend y servicios
 
+### 10.1. Scripts de base de datos
+
+- **Esquema y triggers**: `supabase/01_schema.sql`
+  - Crea todas las tablas de negocio: `materials`, `product_types`, `products`, `stones`, `product_stones`, `product_images`, `settings`.
+  - Configura índices para filtros habituales (`material_id`, `product_type_id`, `active`, joins de tablas de relación).
+  - Define la función genérica `public.set_updated_at()` y triggers `before update` en todas las tablas para mantener `updated_at`.
+
+- **RLS y policies**: `supabase/02_rls_policies.sql`
+  - Activa y fuerza RLS en todas las tablas públicas de negocio.
+  - Policies:
+    - `products`: `SELECT` público solo cuando `active = true`; `INSERT/UPDATE/DELETE` solo para usuarios autenticados.
+    - `product_images`, `materials`, `product_types`, `stones`, `product_stones`: `SELECT` para cualquier visitante; escrituras solo autenticados.
+    - `settings`: `SELECT` público; `UPDATE` solo autenticados.
+  - **Supuesto actual de admin**: cualquier usuario con `auth.role() = 'authenticated'` se considera admin (solo se creará la cuenta del joyero). Si en el futuro hay más usuarios autenticados no-admin, se deberá introducir un flag `is_admin` o claims personalizados y ajustar estas policies.
+
+- **Seeds iniciales**: `supabase/03_seeds.sql`
+  - Inserta materiales típicos (Oro 18K, Plata 925, Acero quirúrgico).
+  - Inserta tipos de producto (Anillo, Collar, Pulsera, Aretes).
+  - Inserta algunas piedras de ejemplo (Diamante, Esmeralda, Zirconia).
+  - Crea una fila en `settings` con:
+    - `whatsapp_number` de prueba (`573001234567`).
+    - `currency = 'COP'`.
+    - `business_name = 'Dmur Jewelry'`.
+  - Todos los inserts son idempotentes (`on conflict do nothing` / `where not exists`).
+
+### 10.2. Servicios de acceso a datos (`src/services`)
+
+- **`supabaseClient.ts`**
+  - Crea un client compartido de Supabase usando `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`.
+
+- **`joyasService.ts`**
+  - `fetchActiveProducts(): Promise<Joya[]>` — listado plano de productos activos.
+  - `fetchActiveProductsWithRelations(): Promise<JoyaWithRelations[]>` — productos activos con joins a `materials`, `product_types`, `product_images` (incluye `primary_image`) y `product_stones` + `stones`. Pensado para el catálogo público.
+  - `fetchFeaturedProducts(): Promise<JoyaWithRelations[]>` — igual que lo anterior, filtrando `featured = true` (para la landing).
+  - `fetchProductById(id)` / `fetchProductBySlug(slug)` — detalle de producto con todas sus relaciones (`JoyaWithRelations`).
+
+- **`imagenesService.ts`**
+  - `getProductImages(productId): Promise<ProductImage[]>` — lee imágenes de `product_images` ordenadas por `sort_order`.
+  - `uploadProductImage(productId, file): Promise<ProductImage>` — sube la imagen al bucket `products` en Supabase Storage, genera `public_url` y crea el registro en `product_images`.
+  - `setPrimaryImage(productId, imageId): Promise<ProductImage>` — limpia `is_primary` del resto y marca como principal la imagen indicada.
+  - `deleteProductImage(image): Promise<void>` — borra tanto el archivo del bucket como el registro en `product_images`.
+
+- **`settingsService.ts`**
+  - `getSettings(): Promise<Settings | null>` — obtiene la única fila lógica de configuración (número de WhatsApp, moneda, nombre de negocio).
+  - `updateSettings(id, payload): Promise<Settings>` — actualiza `whatsapp_number`, `currency` y/o `business_name` (requiere usuario autenticado por RLS).
+
+- **`authService.ts`**
+  - `getCurrentSession(): Promise<Session | null>` — helper para saber si hay sesión activa del admin.
+  - `signInWithEmail({ email, password }): Promise<Session | null>` — login del admin usando Supabase Auth (email/contraseña).
+  - `signOut(): Promise<void>` — cierra la sesión actual.
+
+### 10.3. Tipos de dominio (`src/types/joya.types.ts`)
+
+- Tipos base ya definidos:
+  - `Material`, `ProductType`, `Joya` (producto plano).
+- Nuevos tipos alineados al modelo:
+  - `Stone` — fila de la tabla `stones`.
+  - `ProductStone` — relación `product_stones`.
+  - `ProductImage` — fila de `product_images`.
+  - `JoyaWithRelations` — agrega a `Joya`:
+    - `material: Material`.
+    - `product_type: ProductType`.
+    - `primary_image: ProductImage | null`.
+    - `images: ProductImage[]`.
+    - `stones: (Stone & { quantity: number })[]`.
+
+Estos tipos y servicios están pensados para ser usados directamente por los futuros hooks (`useJoyas`, `useFeaturedJoyas`, `useAuth`) y componentes de catálogo/landing/carrito/admin definidos en `Markdown/plan-Dmur.md`.
