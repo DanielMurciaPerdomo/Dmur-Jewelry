@@ -38,7 +38,7 @@ Estos valores se usan en `src/services/supabaseClient.ts`.
    - Deshabilita el **registro público** (solo el admin tendrá cuenta).
 3. En **Authentication → Policies / Configuración avanzada**, asegúrate de que no haya invitaciones ni signups abiertos al público.
 
-### 3.2. Creación manual del usuario admin
+### 3.2. Creación Manual Del Usuario Admin
 
 La cuenta del joyero/admin se crea **manual** desde el panel de Supabase:
 
@@ -307,7 +307,35 @@ La estructura sigue la propuesta en `plan-Dmur.md` (solo se implementan placehol
 - `utils/*` — helpers (`whatsapp.ts`, `formatters.ts`).
 - `router/AppRouter.tsx` — definición de rutas públicas y protegidas.
 
-## 7. Rutas configuradas
+## 7. Sistema de colores y tema (light/dark)
+
+- Tailwind está configurado con `darkMode: "class"` en `tailwind.config.js`.
+- Paletas personalizadas:
+  - `metallic-gold` (50–950): usada principalmente en **modo claro** para fondos y acentos.
+  - `ocean-mist` (50–950): usada principalmente en **modo oscuro** como color de acento.
+- Esquema recomendado:
+  - **Modo claro**:
+    - Fondos: `bg-metallic-gold-50`, `bg-metallic-gold-100`.
+    - Texto principal: `text-metallic-gold-900` / `text-metallic-gold-800`.
+    - Bordes y detalles: `border-metallic-gold-300`, `bg-metallic-gold-300/400` para botones.
+  - **Modo oscuro**:
+    - Fondos base: `bg-slate-950`, `bg-slate-900`.
+    - Acentos: `text-ocean-mist-300`, `text-ocean-mist-200`, `bg-ocean-mist-800`.
+    - Botones/links: `bg-ocean-mist-500 hover:bg-ocean-mist-400`, etc.
+- Ejemplos de clases Tailwind para futuros componentes:
+  - `bg-metallic-gold-500 text-slate-950`
+  - `text-metallic-gold-800`
+  - `text-ocean-mist-200`
+  - `bg-ocean-mist-700 hover:bg-ocean-mist-600`
+
+El modo oscuro se activa añadiendo la clase `dark` al elemento raíz (`<html>`).  
+Existe un hook `useTheme` en `src/hooks/useTheme.ts` que:
+
+- Lee y persiste el tema en `localStorage`.
+- Aplica o quita la clase `dark` en `document.documentElement`.
+- Expone `{ theme, toggleTheme }` para que futuros agentes puedan construir un toggle visual sin tocar el setup base.
+
+## 8. Rutas configuradas
 
 En `src/router/AppRouter.tsx` se definen:
 
@@ -319,7 +347,7 @@ En `src/router/AppRouter.tsx` se definen:
 
 `ProtectedRoute` usa `useAuth` (que a su vez lee de `AuthContext`) para permitir o no el acceso al panel admin.
 
-## 8. Próximos pasos (Fases siguientes)
+## 9. Próximos pasos (Fases siguientes)
 
 A partir de este setup, otros agentes pueden:
 
