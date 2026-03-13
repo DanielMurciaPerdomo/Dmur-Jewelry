@@ -1,2 +1,15 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+
+# Variables de entorno
 .env
-# Add directories or file patterns to ignore during indexing (e.g. foo/ or *.csv)
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

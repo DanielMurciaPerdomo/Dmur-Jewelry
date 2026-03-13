@@ -14,6 +14,35 @@ export interface ProductType {
   updated_at: string;
 }
 
+export interface Stone {
+  id: string;
+  stone_type: string;
+  stone_size: string;
+  stone_value: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProductStone {
+  id: string;
+  product_id: string;
+  stone_id: string;
+  quantity: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProductImage {
+  id: string;
+  product_id: string;
+  storage_path: string;
+  public_url: string | null;
+  is_primary: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Joya {
   id: string;
   name: string;
@@ -29,6 +58,14 @@ export interface Joya {
   featured: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface JoyaWithRelations extends Joya {
+  material: Material;
+  product_type: ProductType;
+  primary_image: ProductImage | null;
+  images: ProductImage[];
+  stones: (Stone & { quantity: number })[];
 }
 
 export interface CarritoItem {
