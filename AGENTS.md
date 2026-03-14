@@ -15,13 +15,13 @@ Los visitantes exploran joyas y contactan al joyero directamente por WhatsApp.
 
 ## Stack — No cambies estas tecnologías
 
-| Área | Tecnología |
-|---|---|
-| Frontend | React 18 + TypeScript + Vite |
-| Estilos | Tailwind CSS (paleta `gold` definida en `tailwind.config.js`) |
-| Backend | Supabase (PostgreSQL + Auth + Storage) |
-| Contacto | WhatsApp `wa.me` — sin WhatsApp Business API |
-| Hosting | Vercel |
+| Área     | Tecnología                                                    |
+| -------- | ------------------------------------------------------------- |
+| Frontend | React 18 + TypeScript + Vite                                  |
+| Estilos  | Tailwind CSS (paleta `gold` definida en `tailwind.config.js`) |
+| Backend  | Supabase (PostgreSQL + Auth + Storage)                        |
+| Contacto | WhatsApp `wa.me` — sin WhatsApp Business API                  |
+| Hosting  | Vercel                                                        |
 
 ---
 
@@ -60,6 +60,7 @@ settings         → configuración global (whatsapp_number, currency, business_
 ```
 
 **Reglas estrictas:**
+
 - ❌ No renombres tablas ni columnas
 - ❌ No cambies tipos de datos existentes
 - ✅ Usa siempre `IF NOT EXISTS` en migraciones SQL
@@ -96,6 +97,7 @@ Excepción products:
 ## Reglas de desarrollo
 
 ### Siempre
+
 - ✅ Usa TypeScript estricto — cero `any`
 - ✅ Usa los tipos definidos en `src/types/joya.types.ts`
 - ✅ Toda comunicación con Supabase va en `src/services/`
@@ -104,6 +106,7 @@ Excepción products:
 - ✅ Las imágenes se validan antes de subir: máx 5MB, solo jpg/png/webp
 
 ### Nunca
+
 - ❌ No instales librerías no mencionadas en el stack sin preguntar
 - ❌ No uses `any` en TypeScript
 - ❌ No pongas lógica de negocio dentro de componentes visuales
@@ -134,7 +137,7 @@ El frontend siempre muestra `final_price`. Los otros dos son internos del admin.
 // utils/whatsapp.ts ya implementado
 // El mensaje se arma con la lista de joyas del carrito
 // La URL tiene la forma:
-`https://wa.me/${whatsapp_number}?text=${encodeURIComponent(mensaje)}`
+`https://wa.me/${whatsapp_number}?text=${encodeURIComponent(mensaje)}`;
 // El número se lee desde la tabla settings de Supabase
 ```
 
@@ -142,14 +145,14 @@ El frontend siempre muestra `final_price`. Los otros dos son internos del admin.
 
 ## Fases del proyecto
 
-| Fase | Estado | Descripción |
-|---|---|---|
-| 1 — Setup | ✅ Completo | Vite + React + TS + Tailwind + Supabase configurado |
-| 2 — Landing | ⏳ Pendiente | Hero, About, Materials, FeaturedProducts, CTAFinal |
-| 3 — Catálogo | ⏳ Pendiente | JoyaGrid, JoyaCard, FiltrosCatalogo |
-| 4 — Carrito | ⏳ Pendiente | CarritoContext, CarritoDrawer, BotonContactar |
-| 5 — Admin | ⏳ Pendiente | Login, CRUD productos, gestión imágenes |
-| 6 — Deploy | ⏳ Pendiente | Vercel + dominio |
+| Fase         | Estado       | Descripción                                         |
+| ------------ | ------------ | --------------------------------------------------- |
+| 1 — Setup    | ✅ Completo  | Vite + React + TS + Tailwind + Supabase configurado |
+| 2 — Landing  | ✅ Completo  | Hero, About, Materials, FeaturedProducts, CTAFinal  |
+| 3 — Catálogo | ✅ Completo  | JoyaGrid, JoyaCard, FiltrosCatalogo                 |
+| 4 — Carrito  | ⏳ Pendiente | CarritoContext, CarritoDrawer, BotonContactar       |
+| 5 — Admin    | ⏳ Pendiente | Login, CRUD productos, gestión imágenes             |
+| 6 — Deploy   | ⏳ Pendiente | Vercel + dominio                                    |
 
 **Actualiza el estado de cada fase cuando la completes.**
 
@@ -157,10 +160,10 @@ El frontend siempre muestra `final_price`. Los otros dos son internos del admin.
 
 ## Archivos de referencia
 
-| Archivo | Contenido |
-|---|---|
-| `Markdown/plan-Dmur.md` | Plan técnico completo del proyecto |
-| `Markdown/plan-base-de-datos.md` | Modelo de datos detallado con SQL |
-| `supabase/01_schema.sql` | DDL ejecutado en Supabase |
-| `supabase/02_rls.sql` | Políticas RLS ejecutadas |
-| `supabase/03_seeds.sql` | Datos iniciales de prueba |
+| Archivo                          | Contenido                          |
+| -------------------------------- | ---------------------------------- |
+| `Markdown/plan-Dmur.md`          | Plan técnico completo del proyecto |
+| `Markdown/plan-base-de-datos.md` | Modelo de datos detallado con SQL  |
+| `supabase/01_schema.sql`         | DDL ejecutado en Supabase          |
+| `supabase/02_rls.sql`            | Políticas RLS ejecutadas           |
+| `supabase/03_seeds.sql`          | Datos iniciales de prueba          |

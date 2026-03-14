@@ -368,11 +368,12 @@ En `src/router/AppRouter.tsx` se definen:
 
 A partir de este setup, otros agentes pueden:
 
-- Implementar la UI de landing, catálogo, carrito y admin.
+- Implementar la UI de landing (Hero, About, Materials, FeaturedProducts, CTAFinal) - ✅ Completa.
+- Implementar la UI de catálogo (JoyaGrid, JoyaCard, FiltrosCatalogo) - ✅ Completa.
 - Completar la lógica de `CarritoContext` (incluyendo `localStorage`).
 - Construir servicios más ricos sobre Supabase (joins, filtros, paginación).
 - Integrar Storage de Supabase para subir y gestionar imágenes de productos.
- 
+
 ## 10. Estado actual del backend y servicios
 
 ### 10.1. Scripts de base de datos
@@ -442,3 +443,29 @@ A partir de este setup, otros agentes pueden:
     - `stones: (Stone & { quantity: number })[]`.
 
 Estos tipos y servicios están pensados para ser usados directamente por los futuros hooks (`useJoyas`, `useFeaturedJoyas`, `useAuth`) y componentes de catálogo/landing/carrito/admin definidos en `Markdown/plan-Dmur.md`.
+
+## 11. Desarrollo de la Landing Page (Fase 2)
+
+La Landing Page ha sido completamente implementada, incluyendo las siguientes secciones y componentes:
+
+- **Hero (`src/components/landing/Hero.tsx`):** Componente principal que introduce la joyería.
+- **About (`src/components/landing/About.tsx`):** Sección informativa sobre la joyería.
+- **Materials (`src/components/landing/Materials.tsx`):** Muestra los materiales utilizados en las joyas.
+- **FeaturedProducts (`src/components/landing/FeaturedProducts.tsx`):**
+  - Muestra una selección de productos destacados.
+  - Utiliza el hook `useFeaturedJoyas` (`src/hooks/useFeaturedJoyas.ts`) para obtener los datos de productos desde `joyasService.ts`.
+  - Implementa la visualización de la tarjeta de producto (`ProductCard`) con imagen principal, nombre, tipo, material y precio.
+  - Maneja los estados de carga, error y la ausencia de productos destacados.
+- **CTAFinal (`src/components/landing/CTAFinal.tsx`):** Llamada a la acción final para dirigir a los usuarios al catálogo.
+
+Todos los componentes de la landing page han sido desarrollados siguiendo la guía de estilos de Tailwind CSS con la paleta `metallic-gold` y `ocean-mist`, y se integran con los servicios de Supabase para la obtención de datos, como es el caso de los productos destacados.
+
+## 12. Desarrollo del Catálogo (Fase 3)
+
+El catálogo de productos ha sido implementado, incluyendo los siguientes componentes y hooks:
+
+- **`src/hooks/useJoyas.ts`:** Hook personalizado para la obtención de todas las joyas activas con sus relaciones (materiales, tipos de producto, imágenes y piedras) desde `joyasService.ts`. Gestiona los estados de carga, éxito y error.
+- **`src/components/catalog/JoyaCard.tsx`:** Componente que muestra una tarjeta individual para cada joya, incluyendo su imagen principal, nombre, tipo, material y precio. Está preparado para futuras integraciones, como un botón para añadir al carrito.
+- **`src/components/catalog/JoyaGrid.tsx`:** Componente encargado de la maquetación en cuadrícula de las `JoyaCard`. Utiliza `useJoyas` para la obtención de datos y maneja los estados de carga y error, así como el caso de no encontrar joyas.
+- **`src/components/catalog/FiltrosCatalogo.tsx`:** Componente placeholder para la funcionalidad de filtrado del catálogo, listo para ser expandido en futuras fases.
+- **`src/pages/Catalogo.tsx`:** La página principal del catálogo, que integra `FiltrosCatalogo` en una barra lateral y `JoyaGrid` para la visualización principal de los productos.
