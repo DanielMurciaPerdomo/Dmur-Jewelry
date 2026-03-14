@@ -1,14 +1,43 @@
-import { createContext, ReactNode, useMemo, useState } from "react";
-import type { CarritoContextValue, CarritoItem } from "../types/joya.types";
+import { createContext, ReactNode, useMemo, useState, useEffect } from "react";
+import type { CarritoItem } from "../types/joya.types";
+
+interface CarritoContextValue {
+  items: CarritoItem[];
+  addItem: (item: CarritoItem) => void;
+  removeItem: (productId: string) => void;
+  updateItem: (productId: string, newQuantity: number) => void;
+  clear: () => void;
+}
 
 export const CarritoContext = createContext<CarritoContextValue | undefined>(undefined);
+
+const STORAGE_KEY = "dmur_carrito";
 
 interface CarritoProviderProps {
   children: ReactNode;
 }
 
 export const CarritoProvider = ({ children }: CarritoProviderProps) => {
-  const [items, setItems] = useState<CarritoItem[]>([]);
+  const [items, setItems] = useState<CarritoItem[]>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch {
+          return [];
+        }
+      }
+    }
+    return [];
+  });
+
+  // Persistir en localStorage cuando cambian los items
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+  }, [items]);
 
   const value: CarritoContextValue = useMemo(
     () => ({
@@ -19,11 +48,21 @@ export const CarritoProvider = ({ children }: CarritoProviderProps) => {
       removeItem: (id) => {
         setItems((prev) => prev.filter((item) => item.product.id !== id));
       },
-      clear: () => setItems([])
+      updateItem: (productId, newQuantity) => {
+        if (newQuantity <= 0) {
+          setItems((prev) => prev.filter((item) => item.product.id !== productId));
+        } else {
+          setItems((prev) =>
+            prev.map((item) =>
+              item.product.id === productId ? { ...item, quantity: newQuantity } : item
+            )
+          );
+        }
+      },
+      clear: () => setItems([]),
     }),
     [items]
   );
 
   return <CarritoContext.Provider value={value}>{children}</CarritoContext.Provider>;
 };
-
