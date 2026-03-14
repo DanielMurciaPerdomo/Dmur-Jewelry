@@ -11,7 +11,7 @@ const ProductCard = ({ joya }: { joya: JoyaWithRelations }) => {
   const alt = joya.name;
 
   return (
-    <article className="overflow-hidden rounded-lg border border-metallic-gold-200 bg-white shadow-sm dark:border-ocean-mist-800 dark:bg-slate-900/80">
+    <article className="overflow-hidden rounded-lg border border-metallic-gold-400 bg-white shadow-sm dark:border-ocean-mist-800 dark:bg-slate-900/80">
       <div className="aspect-square bg-metallic-gold-100 dark:bg-slate-800">
         {imageUrl ? (
           <img src={imageUrl} alt={alt} className="h-full w-full object-cover" loading="lazy" />
@@ -42,7 +42,7 @@ export const FeaturedProducts = () => {
   const displayed = joyas.slice(0, MAX_FEATURED);
 
   return (
-    <section className="border-t border-metallic-gold-200/80 bg-metallic-gold-50/30 py-16 dark:border-ocean-mist-800 dark:bg-slate-950/50">
+    <section className="border-t border-metallic-gold-400/80 bg-metallic-gold-200 py-16 dark:border-ocean-mist-800 dark:bg-slate-950/50">
       <div className="mx-auto max-w-5xl px-4">
         <h2 className="text-center font-serif text-3xl font-light tracking-tight text-metallic-gold-900 dark:text-ocean-mist-100 sm:text-4xl">
           Productos destacados
@@ -59,7 +59,7 @@ export const FeaturedProducts = () => {
           )}
 
           {!isLoading && errorMessage && (
-            <p className="rounded-md border border-metallic-gold-300 bg-metallic-gold-50 px-4 py-3 text-center text-base text-metallic-gold-800 dark:border-ocean-mist-700 dark:bg-slate-900 dark:text-ocean-mist-200">
+            <p className="rounded-md border border-metallic-gold-400 bg-metallic-gold-50 px-4 py-3 text-center text-base text-metallic-gold-800 dark:border-ocean-mist-700 dark:bg-slate-900 dark:text-ocean-mist-200">
               {errorMessage}
             </p>
           )}

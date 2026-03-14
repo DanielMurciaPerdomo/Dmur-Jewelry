@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   return (
-    <header className="sticky top-0 z-40 border-b border-metallic-gold-200 bg-metallic-gold-400 dark:border-ocean-mist-800/60 dark:bg-slate-950/95">
+    <header className="sticky top-0 z-40 border-b border-metallic-gold-400 bg-metallic-gold-400 dark:border-ocean-mist-800/60 dark:bg-slate-950/95">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <Link
           to="/"

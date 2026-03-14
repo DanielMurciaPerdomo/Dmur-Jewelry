@@ -1,6 +1,6 @@
 export const About = () => {
   return (
-    <section className="border-t border-metallic-gold-200/80 bg-metallic-gold-200 py-16 dark:border-ocean-mist-800 dark:bg-slate-950">
+    <section className="border-t border-metallic-gold-400/80 bg-metallic-gold-200 py-16 dark:border-ocean-mist-800 dark:bg-slate-950">
       <div className="mx-auto max-w-3xl px-4">
         <h2 className="text-center font-serif text-3xl font-light tracking-tight text-metallic-gold-900 dark:text-ocean-mist-100 sm:text-4xl">
           Sobre nosotros

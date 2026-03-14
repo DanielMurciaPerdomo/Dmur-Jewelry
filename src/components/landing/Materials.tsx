@@ -30,7 +30,7 @@ export const Materials = () => {
           {MATERIALS.map((item) => (
             <article
               key={item.title}
-              className="rounded-lg border border-metallic-gold-200 bg-metallic-gold-50/80 p-6 shadow-sm transition dark:border-ocean-mist-700 dark:bg-slate-900/60"
+              className="rounded-lg border border-metallic-gold-400 bg-metallic-gold-200 p-6 shadow-sm transition dark:border-ocean-mist-700 dark:bg-slate-900/60"
             >
               <h3 className="text-lg font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
                 {item.title}

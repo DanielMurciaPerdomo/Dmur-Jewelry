@@ -24,7 +24,9 @@ export const useFeaturedJoyas = () => {
       .catch(() => {
         if (!cancelled) {
           setJoyas([]);
-          setErrorMessage("No pudimos cargar los productos destacados. Intenta de nuevo más tarde.");
+          setErrorMessage(
+            "No pudimos cargar los productos destacados. Intenta de nuevo más tarde."
+          );
           setStatus("error");
         }
       });
