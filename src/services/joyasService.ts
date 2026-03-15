@@ -1,4 +1,10 @@
-import type { Joya, JoyaWithRelations, ProductImage, Stone } from "../types/joya.types";
+import type {
+  Joya,
+  JoyaWithRelations,
+  ProductImage,
+  Stone,
+  ProductType,
+} from "../types/joya.types";
 import { supabase } from "./supabaseClient";
 
 type RawProductRow = Joya & {
@@ -6,6 +12,7 @@ type RawProductRow = Joya & {
     id: string;
     name: string;
     material_value: number;
+    description: string;
     created_at: string;
     updated_at: string;
   } | null;
@@ -17,11 +24,13 @@ type RawProductRow = Joya & {
     updated_at: string;
   } | null;
   product_images?: ProductImage[] | null;
-  product_stones?: {
-    id: string;
-    quantity: number;
-    stones: Stone;
-  }[] | null;
+  product_stones?:
+    | {
+        id: string;
+        quantity: number;
+        stones: Stone;
+      }[]
+    | null;
 };
 
 const baseProductSelect = `
@@ -30,6 +39,7 @@ const baseProductSelect = `
     id,
     name,
     material_value,
+    description,
     created_at,
     updated_at
   ),
@@ -179,3 +189,51 @@ export const fetchProductBySlug = async (slug: string): Promise<JoyaWithRelation
   return mapRawProduct(data);
 };
 
+export const fetchProductTypes = async (): Promise<ProductType[]> => {
+  const { data, error } = await supabase
+    .from("product_types")
+    .select("*")
+    .order("name", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []) as ProductType[];
+};
+
+// CRUD Operations
+export const createProduct = async (
+  product: Omit<Joya, "id" | "created_at" | "updated_at">
+): Promise<Joya> => {
+  const { data, error } = await supabase.from("products").insert([product]).select().single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data as Joya;
+};
+
+export const updateProduct = async (id: string, updates: Partial<Joya>): Promise<Joya> => {
+  const { data, error } = await supabase
+    .from("products")
+    .update(updates)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data as Joya;
+};
+
+export const deleteProduct = async (id: string): Promise<void> => {
+  const { error } = await supabase.from("products").delete().eq("id", id);
+
+  if (error) {
+    throw error;
+  }
+};

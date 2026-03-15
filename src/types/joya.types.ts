@@ -2,6 +2,7 @@ export interface Material {
   id: string;
   name: string;
   material_value: number;
+  description: string;
   created_at: string;
   updated_at: string;
 }

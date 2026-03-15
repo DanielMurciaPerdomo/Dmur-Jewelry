@@ -1,0 +1,136 @@
+import { useState } from "react";
+import type { ProductImage } from "../../types/joya.types";
+import {
+  uploadProductImage,
+  setPrimaryImage,
+  deleteProductImage,
+} from "../../services/imagenesService";
+import { Button } from "../ui/Button";
+
+interface ImageUploaderProps {
+  productId: string;
+  existingImages: ProductImage[];
+  onImagesChange: (images: ProductImage[]) => void;
+}
+
+export const ImageUploader = ({
+  productId,
+  existingImages,
+  onImagesChange,
+}: ImageUploaderProps) => {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setError(null);
+    setUploading(true);
+
+    try {
+      const uploadPromises = Array.from(files).map((file) => {
+        // Validate file size (5MB limit)
+        if (file.size > 5 * 1024 * 1024) {
+          throw new Error(`El archivo ${file.name} supera el límite de 5MB.`);
+        }
+
+        // Validate file type
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+          throw new Error(`El archivo ${file.name} tiene un formato no permitido.`);
+        }
+
+        return uploadProductImage(productId, file);
+      });
+
+      const newImages = await Promise.all(uploadPromises);
+      onImagesChange([...existingImages, ...newImages]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al subir las imágenes.");
+    } finally {
+      setUploading(false);
+      e.target.value = ""; // Reset input
+    }
+  };
+
+  const handleSetPrimary = async (imageId: string) => {
+    try {
+      const updatedImage = await setPrimaryImage(productId, imageId);
+      const updatedImages = existingImages.map((img) =>
+        img.id === imageId ? { ...img, is_primary: true } : { ...img, is_primary: false }
+      );
+      onImagesChange(updatedImages);
+    } catch (err) {
+      setError("Error al establecer la imagen principal.");
+    }
+  };
+
+  const handleDelete = async (image: ProductImage) => {
+    if (!window.confirm("¿Estás seguro de que quieres eliminar esta imagen?")) return;
+
+    try {
+      await deleteProductImage(image);
+      onImagesChange(existingImages.filter((img) => img.id !== image.id));
+    } catch (err) {
+      setError("Error al eliminar la imagen.");
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-2">
+          Imágenes del Producto
+        </label>
+        <input
+          type="file"
+          multiple
+          accept="image/jpeg,image/png,image/webp"
+          onChange={handleFileChange}
+          disabled={uploading}
+          className="block w-full text-sm text-metallic-gold-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-metallic-gold-100 file:text-metallic-gold-700 hover:file:bg-metallic-gold-200 dark:file:bg-ocean-mist-800 dark:file:text-ocean-mist-200 dark:hover:file:bg-ocean-mist-700"
+        />
+        <p className="mt-1 text-xs text-metallic-gold-500 dark:text-ocean-mist-400">
+          JPG, PNG, WebP. Máximo 5MB por imagen.
+        </p>
+      </div>
+
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {existingImages.map((image) => (
+          <div key={image.id} className="relative group">
+            <img
+              src={image.public_url || ""}
+              alt={`Imagen de producto`}
+              className="w-full h-32 object-cover rounded-md"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md flex items-center justify-center space-x-2">
+              {!image.is_primary && (
+                <button
+                  onClick={() => handleSetPrimary(image.id)}
+                  className="text-white text-xs bg-metallic-gold-600 px-2 py-1 rounded hover:bg-metallic-gold-700"
+                  title="Establecer como principal"
+                >
+                  Principal
+                </button>
+              )}
+              <button
+                onClick={() => handleDelete(image)}
+                className="text-white text-xs bg-red-600 px-2 py-1 rounded hover:bg-red-700"
+                title="Eliminar"
+              >
+                Borrar
+              </button>
+            </div>
+            {image.is_primary && (
+              <div className="absolute top-1 left-1 bg-metallic-gold-600 text-white text-xs px-1 rounded">
+                Principal
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

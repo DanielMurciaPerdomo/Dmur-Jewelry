@@ -1,14 +1,14 @@
 import { buildWhatsappUrl, FALLBACK_WHATSAPP_NUMBER } from "../../utils/whatsapp";
 
-const CTA_MESSAGE = "Hola! Me gustaría diseñar o consultar una joya a medida con Dmur Jewelry.";
-
 type CTAFinalProps = {
   whatsappNumber?: string | null;
+  businessName?: string | null;
 };
 
-export const CTAFinal = ({ whatsappNumber }: CTAFinalProps) => {
+export const CTAFinal = ({ whatsappNumber, businessName }: CTAFinalProps) => {
   const number = whatsappNumber?.replace(/\D/g, "") || FALLBACK_WHATSAPP_NUMBER;
-  const href = buildWhatsappUrl(number, CTA_MESSAGE);
+  const message = `Hola! Me gustaría diseñar o consultar una joya a medida con ${businessName || "su joyería"}.`;
+  const href = buildWhatsappUrl(number, message);
 
   return (
     <section className="bg-metallic-gold-700 py-16 dark:bg-metallic-gold-700">
