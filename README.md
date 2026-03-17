@@ -370,7 +370,8 @@ A partir de este setup, otros agentes pueden:
 
 - Implementar la UI de landing (Hero, About, Materials, FeaturedProducts, CTAFinal) - ✅ Completa.
 - Implementar la UI de catálogo (JoyaGrid, JoyaCard, FiltrosCatalogo) - ✅ Completa.
-- Completar la lógica de `CarritoContext` (incluyendo `localStorage`).
+- Implementar la UI del carrito (CarritoDrawer, CarritoItem, BotonContactar, Persistencia en localStorage) - ✅ Completa.
+- Implementar la funcionalidad de agregar al carrito desde el catálogo - ✅ Completa.
 - Construir servicios más ricos sobre Supabase (joins, filtros, paginación).
 - Integrar Storage de Supabase para subir y gestionar imágenes de productos.
 
@@ -469,3 +470,40 @@ El catálogo de productos ha sido implementado, incluyendo los siguientes compon
 - **`src/components/catalog/JoyaGrid.tsx`:** Componente encargado de la maquetación en cuadrícula de las `JoyaCard`. Utiliza `useJoyas` para la obtención de datos y maneja los estados de carga y error, así como el caso de no encontrar joyas.
 - **`src/components/catalog/FiltrosCatalogo.tsx`:** Componente placeholder para la funcionalidad de filtrado del catálogo, listo para ser expandido en futuras fases.
 - **`src/pages/Catalogo.tsx`:** La página principal del catálogo, que integra `FiltrosCatalogo` en una barra lateral y `JoyaGrid` para la visualización principal de los productos.
+
+## 13. Desarrollo del Carrito (Fase 4)
+
+El apartado del carrito para el cliente ha sido implementado, manteniendo el estilo consistente con el landing y catálogo. Los componentes incluyen:
+
+- **`src/context/CarritoContext.tsx`:** Contexto de React para gestionar el estado del carrito, que permite:
+  - `addItem`: Agregar productos al carrito.
+  - `removeItem`: Eliminar un producto del carrito (por ID).
+  - `updateItem`: Actualizar la cantidad de un producto existente.
+  - `clear`: Vaciar todo el carrito.
+  - Los items del carrito ahora usan `JoyaWithRelations` para mostrar correctamente las relaciones en la UI.
+  - Persistencia en `localStorage` para mantener el carrito entre sesiones.
+
+- **`src/components/cart/CarritoItem.tsx`:** Componente visual para mostrar cada item en el carrito, incluyendo:
+  - Imagen del producto.
+  - Nombre, tipo y material.
+  - Controles de cantidad (aumentar/reducir).
+  - Precio unitario y total por ítem.
+  - Botón para eliminar el item.
+
+- **`src/components/cart/BotonContactar.tsx`:** Componente que genera el enlace de WhatsApp para contactar al joyero:
+  - Obtiene el número de WhatsApp desde `settingsService`.
+  - Genera un mensaje formateado con la lista de productos del carrito y sus cantidades.
+  - Calcula el total del carrito.
+  - Incluye un enlace a WhatsApp con el mensaje codificado.
+
+- **`src/components/cart/CarritoDrawer.tsx`:** Componente principal que integra todos los elementos del carrito:
+  - Muestra la lista de items usando `CarritoItemComponent`.
+  - Incluye el botón de contacto.
+  - Permite vaciar el carrito.
+  - Muestra un mensaje cuando el carrito está vacío.
+
+- **`src/pages/Carrito.tsx`:** La página principal del carrito que utiliza `CarritoDrawer` para la visualización.
+
+- **`src/components/catalog/JoyaCard.tsx`:** Actualizado para incluir el botón "Agregar al carrito" que utiliza el hook `useCarrito` para agregar productos a la lista.
+
+El flujo completo permite al usuario agregar productos desde el catálogo (haciendo clic en "Agregar al carrito"), revisar su selección en el carrito y contactar directamente al joyero por WhatsApp para proceder con la compra, tal como se especifica en los requerimientos del proyecto.

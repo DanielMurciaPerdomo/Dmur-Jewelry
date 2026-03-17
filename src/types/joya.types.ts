@@ -69,7 +69,7 @@ export interface JoyaWithRelations extends Joya {
 }
 
 export interface CarritoItem {
-  product: Joya;
+  product: JoyaWithRelations;
   quantity: number;
 }
 
@@ -79,4 +79,3 @@ export interface CarritoContextValue {
   removeItem: (productId: string) => void;
   clear: () => void;
 }
-

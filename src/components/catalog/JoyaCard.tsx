@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import type { JoyaWithRelations } from "../../types/joya.types";
 import { formatCurrencyCOP } from "../../utils/formatters";
+import { useCarrito } from "../../hooks/useCarrito";
+import { Button } from "../ui/Button";
 
 interface JoyaCardProps {
   joya: JoyaWithRelations;
@@ -9,6 +11,11 @@ interface JoyaCardProps {
 export const JoyaCard = ({ joya }: JoyaCardProps) => {
   const imageUrl = joya.primary_image?.public_url ?? null;
   const alt = joya.name;
+  const { addItem } = useCarrito();
+
+  const handleAddToCart = () => {
+    addItem({ product: joya, quantity: 1 });
+  };
 
   return (
     <article className="group relative overflow-hidden rounded-lg border border-metallic-gold-400 bg-white shadow-sm transition-all duration-300 hover:shadow-md dark:border-ocean-mist-800 dark:bg-slate-900/80">
@@ -40,7 +47,11 @@ export const JoyaCard = ({ joya }: JoyaCardProps) => {
           </p>
         </div>
       </Link>
-      {/* TODO: Botón para agregar al carrito (Fase 4) */}
+      <div className="px-4 pb-4">
+        <Button onClick={handleAddToCart} className="w-full justify-center text-sm">
+          Agregar al carrito
+        </Button>
+      </div>
     </article>
   );
 };
