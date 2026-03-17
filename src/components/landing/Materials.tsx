@@ -32,10 +32,10 @@ export const Materials = () => {
                 key={item.id}
                 className="rounded-lg border border-metallic-gold-400 bg-metallic-gold-200 p-6 shadow-sm transition dark:border-ocean-mist-700 dark:bg-slate-900/60"
               >
-                <h3 className="text-lg font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
+                <h3 className="text-center text-lg font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
                   {item.name}
                 </h3>
-                <p className="mt-2 text-base leading-relaxed text-metallic-gold-800/90 dark:text-ocean-mist-200/85">
+                <p className="mt-2 text-base leading-relaxed text-metallic-gold-800/90 dark:text-ocean-mist-200/85 text-justify">
                   {item.description}
                 </p>
               </article>
