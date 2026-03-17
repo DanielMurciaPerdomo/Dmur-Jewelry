@@ -3,20 +3,23 @@ import type { CarritoItem } from "../types/joya.types";
 /** Número solo dígitos, sin +. Usar hasta que exista settings.whatsapp_number en Supabase. */
 export const FALLBACK_WHATSAPP_NUMBER = "573000000000";
 
-export const buildWhatsappMessage = (items: CarritoItem[]): string => {
+export const buildWhatsappMessage = (
+  items: CarritoItem[],
+  businessName: string = "D´mur Joyería"
+): string => {
   if (items.length === 0) {
-    return "Hola! Me gustaría recibir información sobre las joyas de Dmur Jewelry.";
+    return `Hola! Me gustaría recibir información sobre las joyas de ${businessName}.`;
   }
 
   const lines: string[] = [
-    "Hola! Me interesan los siguientes productos de Dmur Jewelry:",
+    `Hola! Me interesan los siguientes productos de ${businessName}:`,
     "",
     ...items.map(
       (item, index) =>
         `${index + 1}. ${item.product.name} - x${item.quantity} (${item.product.final_price} COP)`
     ),
     "",
-    "Me gustaría recibir más información. ¡Gracias!"
+    "Me gustaría recibir más información. ¡Gracias!",
   ];
 
   return lines.join("\n");
@@ -26,4 +29,3 @@ export const buildWhatsappUrl = (whatsappNumber: string, message: string): strin
   const encoded = encodeURIComponent(message);
   return `https://wa.me/${whatsappNumber}?text=${encoded}`;
 };
-

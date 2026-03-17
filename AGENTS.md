@@ -151,7 +151,7 @@ El frontend siempre muestra `final_price`. Los otros dos son internos del admin.
 | 2 — Landing  | ✅ Completo  | Hero, About, Materials, FeaturedProducts, CTAFinal  |
 | 3 — Catálogo | ✅ Completo  | JoyaGrid, JoyaCard, FiltrosCatalogo                 |
 | 4 — Carrito  | ✅ Completo  | CarritoContext, CarritoDrawer, BotonContactar       |
-| 5 — Admin    | ⏳ Pendiente | Login, CRUD productos, gestión imágenes             |
+| 5 — Admin    | ✅ Completo  | Login, CRUD productos, gestión imágenes             |
 | 6 — Deploy   | ⏳ Pendiente | Vercel + dominio                                    |
 
 **Actualiza el estado de cada fase cuando la completes.**

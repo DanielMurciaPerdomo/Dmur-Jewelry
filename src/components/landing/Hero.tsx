@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import { buildWhatsappUrl, FALLBACK_WHATSAPP_NUMBER } from "../../utils/whatsapp";
 
-const LANDING_WHATSAPP_MESSAGE = "Hola! Me gustaría conocer más sobre las piezas de Dmur Jewelry.";
-
 type HeroProps = {
   whatsappNumber?: string | null;
+  businessName?: string | null;
 };
 
-export const Hero = ({ whatsappNumber }: HeroProps) => {
+export const Hero = ({ whatsappNumber, businessName }: HeroProps) => {
   const number = whatsappNumber?.replace(/\D/g, "") || FALLBACK_WHATSAPP_NUMBER;
-  const whatsappHref = buildWhatsappUrl(number, LANDING_WHATSAPP_MESSAGE);
+  const message = `Hola! Me gustaría conocer más sobre las piezas de ${businessName || "D´mur Joyería"}.`;
+  const whatsappHref = buildWhatsappUrl(number, message);
 
   return (
     <section className="relative isolate min-h-[75vh] overflow-hidden">
@@ -29,7 +29,7 @@ export const Hero = ({ whatsappNumber }: HeroProps) => {
           Joyería artesanal
         </p>
         <h1 className="font-serif text-5xl font-light tracking-tight text-metallic-gold-900 dark:text-ocean-mist-100 sm:text-6xl md:text-7xl">
-          Dmur Jewelry
+          {businessName || "D´mur Joyería"}
         </h1>
         <p className="mt-4 max-w-xl text-lg text-metallic-gold-800/90 dark:text-ocean-mist-200/95 sm:text-xl">
           Elegancia en cada detalle. Piezas hechas a mano y personalizadas para acompañarte siempre.

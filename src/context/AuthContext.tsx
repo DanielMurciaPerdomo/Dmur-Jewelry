@@ -1,6 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import type { AuthContextValue } from "../types/auth.types";
-import { getCurrentSession } from "../services/authService";
+import type { AuthContextValue, AuthCredentials } from "../types/auth.types";
+import {
+  getCurrentSession,
+  signInWithEmail,
+  signOut as authServiceSignOut,
+} from "../services/authService";
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
@@ -25,11 +29,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     void checkSession();
   }, []);
 
+  const signIn = async (credentials: AuthCredentials) => {
+    const session = await signInWithEmail(credentials);
+    setIsAuthenticated(Boolean(session));
+    return session;
+  };
+
+  const signOut = async () => {
+    await authServiceSignOut();
+    setIsAuthenticated(false);
+  };
+
   const value: AuthContextValue = {
     isAuthenticated,
-    loading
+    loading,
+    signIn,
+    signOut,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-

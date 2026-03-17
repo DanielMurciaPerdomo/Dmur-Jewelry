@@ -3,18 +3,18 @@ import { CTAFinal } from "../components/landing/CTAFinal";
 import { FeaturedProducts } from "../components/landing/FeaturedProducts";
 import { Hero } from "../components/landing/Hero";
 import { Materials } from "../components/landing/Materials";
-import { useSettings } from "../hooks/useSettings";
+import { useSettingsContext } from "../context/SettingsContext";
 
 export const Landing = () => {
-  const settings = useSettings();
+  const { settings } = useSettingsContext();
 
   return (
     <main className="flex flex-col">
-      <Hero whatsappNumber={settings?.whatsapp_number} />
+      <Hero whatsappNumber={settings?.whatsapp_number} businessName={settings?.business_name} />
       <About />
       <Materials />
       <FeaturedProducts />
-      <CTAFinal whatsappNumber={settings?.whatsapp_number} />
+      <CTAFinal whatsappNumber={settings?.whatsapp_number} businessName={settings?.business_name} />
     </main>
   );
 };

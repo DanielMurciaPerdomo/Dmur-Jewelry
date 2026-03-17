@@ -1,4 +1,9 @@
+import { useSettingsContext } from "../../context/SettingsContext";
+
 export const About = () => {
+  const { settings } = useSettingsContext();
+  const businessName = settings?.business_name || "D´mur Joyería";
+
   return (
     <section className="border-t border-metallic-gold-400/80 bg-metallic-gold-200 py-16 dark:border-ocean-mist-800 dark:bg-slate-950">
       <div className="mx-auto max-w-3xl px-4">
@@ -9,7 +14,7 @@ export const About = () => {
           <p className="leading-relaxed">
             En{" "}
             <strong className="font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
-              Dmur Jewelry
+              {businessName}
             </strong>{" "}
             creemos que una joya debe contar una historia. Trabajamos con dedicación para ofrecer
             piezas que combinan diseño atemporal y acabados cuidados, pensadas para quienes buscan
