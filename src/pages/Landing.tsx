@@ -11,9 +11,9 @@ export const Landing = () => {
   return (
     <main className="flex flex-col">
       <Hero whatsappNumber={settings?.whatsapp_number} businessName={settings?.business_name} />
-      <About />
-      <Materials />
       <FeaturedProducts />
+      <Materials />
+      <About />
       <CTAFinal whatsappNumber={settings?.whatsapp_number} businessName={settings?.business_name} />
     </main>
   );
