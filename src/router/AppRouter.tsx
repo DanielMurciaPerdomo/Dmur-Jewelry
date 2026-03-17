@@ -10,6 +10,8 @@ import { AdminLayout } from "../components/admin/AdminLayout";
 import { JoyaTabla } from "../components/admin/JoyaTabla";
 import { JoyaForm } from "../components/admin/JoyaForm";
 import { Configuracion } from "../pages/Configuracion";
+import { PiedrasTabla } from "../components/admin/PiedrasTabla";
+import { PiedrasForm } from "../components/admin/PiedrasForm";
 
 export const AppRouter = () => {
   return (
@@ -32,6 +34,9 @@ export const AppRouter = () => {
         <Route path="productos" element={<JoyaTabla />} />
         <Route path="productos/nuevo" element={<JoyaForm />} />
         <Route path="productos/:id/editar" element={<JoyaForm />} />
+        <Route path="piedras" element={<PiedrasTabla />} />
+        <Route path="piedras/nueva" element={<PiedrasForm />} />
+        <Route path="piedras/:id/editar" element={<PiedrasForm />} />
         <Route path="configuracion" element={<Configuracion />} />
       </Route>
 
