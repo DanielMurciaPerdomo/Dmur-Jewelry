@@ -39,6 +39,7 @@ export const JoyaForm = () => {
     final_price: 0,
     active: true,
     featured: false,
+    phy_url: "",
   });
 
   useEffect(() => {
@@ -67,6 +68,7 @@ export const JoyaForm = () => {
               final_price: product.final_price,
               active: product.active,
               featured: product.featured,
+              phy_url: product.phy_url || "",
             });
             const imagesData = await getProductImages(id);
             setImages(imagesData);
@@ -169,6 +171,20 @@ export const JoyaForm = () => {
                 name="sku"
                 value={formData.sku || ""}
                 onChange={handleChange}
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-1">
+                Ruta Física *
+              </label>
+              <input
+                type="text"
+                name="phy_url"
+                value={formData.phy_url}
+                onChange={handleChange}
+                required
+                placeholder="C://..."
                 className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>

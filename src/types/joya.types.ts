@@ -57,6 +57,7 @@ export interface Joya {
   final_price: number;
   active: boolean;
   featured: boolean;
+  phy_url?: string; // Admin only
   created_at: string;
   updated_at: string;
 }

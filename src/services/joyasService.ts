@@ -33,7 +33,48 @@ type RawProductRow = Joya & {
     | null;
 };
 
-const baseProductSelect = `
+const baseProductSelectPublic = `
+  id, name, slug, description, material_id, product_type_id, sku, fixed_cost, margin_percentage, final_price, active, featured, created_at, updated_at,
+  materials (
+    id,
+    name,
+    material_value,
+    description,
+    created_at,
+    updated_at
+  ),
+  product_types (
+    id,
+    name,
+    type_value,
+    created_at,
+    updated_at
+  ),
+  product_images (
+    id,
+    product_id,
+    storage_path,
+    public_url,
+    is_primary,
+    sort_order,
+    created_at,
+    updated_at
+  ),
+  product_stones (
+    id,
+    quantity,
+    stones (
+      id,
+      stone_type,
+      stone_size,
+      stone_value,
+      created_at,
+      updated_at
+    )
+  )
+`;
+
+const baseProductSelectAdmin = `
   *,
   materials (
     id,
@@ -96,6 +137,7 @@ const mapRawProduct = (row: RawProductRow): JoyaWithRelations => {
     final_price: row.final_price,
     active: row.active,
     featured: row.featured,
+    phy_url: row.phy_url,
     created_at: row.created_at,
     updated_at: row.updated_at,
     material: row.materials!,
@@ -123,7 +165,7 @@ export const fetchActiveProducts = async (): Promise<Joya[]> => {
 export const fetchActiveProductsWithRelations = async (): Promise<JoyaWithRelations[]> => {
   const { data, error } = await supabase
     .from("products")
-    .select(baseProductSelect)
+    .select(baseProductSelectPublic)
     .eq("active", true)
     .order("created_at", { ascending: false });
 
@@ -131,14 +173,14 @@ export const fetchActiveProductsWithRelations = async (): Promise<JoyaWithRelati
     throw error;
   }
 
-  const rows = (data ?? []) as RawProductRow[];
+  const rows = (data ?? []) as unknown as RawProductRow[];
   return rows.map(mapRawProduct);
 };
 
 export const fetchFeaturedProducts = async (): Promise<JoyaWithRelations[]> => {
   const { data, error } = await supabase
     .from("products")
-    .select(baseProductSelect)
+    .select(baseProductSelectPublic)
     .eq("active", true)
     .eq("featured", true)
     .order("created_at", { ascending: false });
@@ -147,14 +189,14 @@ export const fetchFeaturedProducts = async (): Promise<JoyaWithRelations[]> => {
     throw error;
   }
 
-  const rows = (data ?? []) as RawProductRow[];
+  const rows = (data ?? []) as unknown as RawProductRow[];
   return rows.map(mapRawProduct);
 };
 
 export const fetchProductById = async (id: string): Promise<JoyaWithRelations | null> => {
   const { data, error } = await supabase
     .from("products")
-    .select(baseProductSelect)
+    .select(baseProductSelectAdmin)
     .eq("id", id)
     .limit(1)
     .maybeSingle<RawProductRow>();
@@ -173,7 +215,7 @@ export const fetchProductById = async (id: string): Promise<JoyaWithRelations | 
 export const fetchProductBySlug = async (slug: string): Promise<JoyaWithRelations | null> => {
   const { data, error } = await supabase
     .from("products")
-    .select(baseProductSelect)
+    .select(baseProductSelectPublic)
     .eq("slug", slug)
     .limit(1)
     .maybeSingle<RawProductRow>();

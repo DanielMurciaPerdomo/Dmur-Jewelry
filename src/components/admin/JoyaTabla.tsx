@@ -68,10 +68,13 @@ export const JoyaTabla = () => {
           <thead className="bg-metallic-gold-100 dark:bg-slate-800">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
+                SKU
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
                 Nombre
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
-                SKU
+                Ruta Física (PHY_URL)
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
                 Precio
@@ -87,11 +90,17 @@ export const JoyaTabla = () => {
           <tbody className="bg-white dark:bg-slate-900 divide-y divide-metallic-gold-200 dark:divide-ocean-mist-700">
             {products.map((product) => (
               <tr key={product.id}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
+                  {product.sku || "-"}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
                   {product.name}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
-                  {product.sku || "-"}
+                <td
+                  className="px-6 py-4 text-sm text-metallic-gold-700 dark:text-ocean-mist-300 max-w-xs truncate"
+                  title={product.phy_url}
+                >
+                  {product.phy_url || "-"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
                   ${product.final_price.toFixed(2)}
