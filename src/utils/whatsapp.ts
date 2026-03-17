@@ -1,5 +1,8 @@
 import type { CarritoItem } from "../types/joya.types";
 
+/** Número solo dígitos, sin +. Usar hasta que exista settings.whatsapp_number en Supabase. */
+export const FALLBACK_WHATSAPP_NUMBER = "573000000000";
+
 export const buildWhatsappMessage = (items: CarritoItem[]): string => {
   if (items.length === 0) {
     return "Hola! Me gustaría recibir información sobre las joyas de Dmur Jewelry.";

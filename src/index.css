@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light: metallic-gold palette · Dark: slate + ocean-mist (class .dark en <html>) */
 body {
-  @apply bg-slate-950 text-slate-50 antialiased;
+  @apply bg-metallic-gold-50 text-metallic-gold-900 antialiased dark:bg-slate-950 dark:text-slate-50;
 }

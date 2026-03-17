@@ -1,11 +1,10 @@
 export const Footer = () => {
   return (
-    <footer className="border-t border-slate-800 bg-slate-950/80">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 text-xs text-slate-500">
+    <footer className="border-t border-metallic-gold-400 bg-metallic-gold-400 dark:border-ocean-mist-800/60 dark:bg-slate-950/90">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-5 font-serif text-xl text-metallic-gold-900 dark:text-ocean-mist-100 sm:flex-row">
         <span>Dmur Jewelry · {new Date().getFullYear()}</span>
         <span>Todos los derechos reservados</span>
       </div>
     </footer>
   );
 };
-

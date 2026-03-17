@@ -10,7 +10,11 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <div className="flex h-screen items-center justify-center">Cargando...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-metallic-gold-50 text-metallic-gold-800 dark:bg-slate-950 dark:text-ocean-mist-200">
+        Cargando...
+      </div>
+    );
   }
 
   if (!isAuthenticated) {

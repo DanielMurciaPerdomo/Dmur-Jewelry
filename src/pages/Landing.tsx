@@ -1,13 +1,20 @@
+import { About } from "../components/landing/About";
+import { CTAFinal } from "../components/landing/CTAFinal";
+import { FeaturedProducts } from "../components/landing/FeaturedProducts";
+import { Hero } from "../components/landing/Hero";
+import { Materials } from "../components/landing/Materials";
+import { useSettings } from "../hooks/useSettings";
+
 export const Landing = () => {
+  const settings = useSettings();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-3xl font-semibold tracking-tight text-amber-300">
-        Dmur Jewelry
-      </h1>
-      <p className="mt-4 text-sm text-slate-300">
-        Landing page placeholder. La UI se implementará en fases posteriores.
-      </p>
+    <main className="flex flex-col">
+      <Hero whatsappNumber={settings?.whatsapp_number} />
+      <About />
+      <Materials />
+      <FeaturedProducts />
+      <CTAFinal whatsappNumber={settings?.whatsapp_number} />
     </main>
   );
 };
-
