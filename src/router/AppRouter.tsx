@@ -12,6 +12,7 @@ import { JoyaForm } from "../components/admin/JoyaForm";
 import { Configuracion } from "../pages/Configuracion";
 import { PiedrasTabla } from "../components/admin/PiedrasTabla";
 import { PiedrasForm } from "../components/admin/PiedrasForm";
+import { MaterialesGrid } from "../components/admin/MaterialesGrid";
 
 export const AppRouter = () => {
   return (
@@ -37,6 +38,7 @@ export const AppRouter = () => {
         <Route path="piedras" element={<PiedrasTabla />} />
         <Route path="piedras/nueva" element={<PiedrasForm />} />
         <Route path="piedras/:id/editar" element={<PiedrasForm />} />
+        <Route path="materiales" element={<MaterialesGrid />} />
         <Route path="configuracion" element={<Configuracion />} />
       </Route>
 
