@@ -8,9 +8,8 @@ const AppContent = () => {
   const { settings } = useSettingsContext();
 
   useEffect(() => {
-    if (settings?.business_name) {
-      document.title = settings.business_name;
-    }
+    const name = settings?.business_name || "D´mur Joyería";
+    document.title = name;
   }, [settings?.business_name]);
 
   return (

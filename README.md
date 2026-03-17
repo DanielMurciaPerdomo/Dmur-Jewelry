@@ -15,6 +15,14 @@ El proyecto **Dmur Jewelry** se encuentra en una fase avanzada de desarrollo, co
 | 5 — Admin    | ✅ Completo  | Login, CRUD productos, gestión imágenes             |
 | 6 — Deploy   | ⏳ Pendiente | Vercel + dominio                                    |
 
+### Optimizaciones Recientes
+
+Se ha implementado una optimización de rendimiento en `JoyaForm.tsx` para evitar recargas innecesarias de datos:
+
+- **Hooks con Caching Global**: Se crearon `useProductTypes` y `useStones`, y se actualizó `useMaterials` para implementar un patrón de singleton con caché global.
+- **Mejora de Rendimiento**: Los datos de materiales, tipos de producto y piedras ahora se cargan una sola vez por sesión de la aplicación, evitando llamadas a la API redundantes al navegar entre formularios.
+- **Componente `JoyaForm` Actualizado**: Ahora utiliza estos hooks en lugar de realizar llamadas directas a los servicios, mejorando la experiencia de usuario en el panel de administración.
+
 ---
 
 ## 2. Stack Tecnológico

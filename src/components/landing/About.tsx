@@ -2,7 +2,7 @@ import { useSettingsContext } from "../../context/SettingsContext";
 
 export const About = () => {
   const { settings } = useSettingsContext();
-  const businessName = settings?.business_name || "Dmur Jewelry";
+  const businessName = settings?.business_name || "D´mur Joyería";
 
   return (
     <section className="border-t border-metallic-gold-400/80 bg-metallic-gold-200 py-16 dark:border-ocean-mist-800 dark:bg-slate-950">

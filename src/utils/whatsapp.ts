@@ -5,7 +5,7 @@ export const FALLBACK_WHATSAPP_NUMBER = "573000000000";
 
 export const buildWhatsappMessage = (
   items: CarritoItem[],
-  businessName: string = "nuestra joyería"
+  businessName: string = "D´mur Joyería"
 ): string => {
   if (items.length === 0) {
     return `Hola! Me gustaría recibir información sobre las joyas de ${businessName}.`;

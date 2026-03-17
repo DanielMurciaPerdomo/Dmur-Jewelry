@@ -2,7 +2,7 @@ import { useSettingsContext } from "../../context/SettingsContext";
 
 export const Footer = () => {
   const { settings } = useSettingsContext();
-  const businessName = settings?.business_name || "Joyas";
+  const businessName = settings?.business_name || "D´mur Joyería";
 
   return (
     <footer className="border-t border-metallic-gold-400 bg-metallic-gold-400 dark:border-ocean-mist-800/60 dark:bg-slate-950/90">

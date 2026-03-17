@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { fetchMaterials } from "../services/materialsService";
-import type { Material } from "../types/joya.types";
+import { fetchStones } from "../services/piedrasService";
+import type { Stone } from "../types/joya.types";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 // Global cache variables
-let cachedMaterials: Material[] | null = null;
+let cachedStones: Stone[] | null = null;
 let cacheStatus: Status = "idle";
 let cacheError: string | null = null;
-let promise: Promise<Material[]> | null = null;
+let promise: Promise<Stone[]> | null = null;
 
-export const useMaterials = () => {
-  const [materials, setMaterials] = useState<Material[]>(cachedMaterials || []);
+export const useStones = () => {
+  const [stones, setStones] = useState<Stone[]>(cachedStones || []);
   const [status, setStatus] = useState<Status>(cacheStatus);
   const [errorMessage, setErrorMessage] = useState<string | null>(cacheError);
 
   useEffect(() => {
     // If data is already cached, return immediately
-    if (cachedMaterials !== null) {
-      setMaterials(cachedMaterials);
+    if (cachedStones !== null) {
+      setStones(cachedStones);
       setStatus("success");
       return;
     }
@@ -30,14 +30,14 @@ export const useMaterials = () => {
       promise
         .then((data) => {
           if (!cancelled) {
-            setMaterials(data);
+            setStones(data);
             setStatus("success");
           }
         })
         .catch((err) => {
           if (!cancelled) {
-            setMaterials([]);
-            setErrorMessage("No pudimos cargar los materiales. Intenta de nuevo más tarde.");
+            setStones([]);
+            setErrorMessage("No pudimos cargar las piedras. Intenta de nuevo más tarde.");
             setStatus("error");
           }
         });
@@ -47,23 +47,23 @@ export const useMaterials = () => {
     // Start the request
     setStatus("loading");
     setErrorMessage(null);
-    promise = fetchMaterials();
+    promise = fetchStones();
 
     promise
       .then((data) => {
         if (!cancelled) {
-          cachedMaterials = data;
+          cachedStones = data;
           cacheStatus = "success";
-          setMaterials(data);
+          setStones(data);
           setStatus("success");
         }
       })
       .catch((err) => {
         if (!cancelled) {
-          cachedMaterials = null;
+          cachedStones = null;
           cacheStatus = "error";
-          cacheError = "No pudimos cargar los materiales. Intenta de nuevo más tarde.";
-          setMaterials([]);
+          cacheError = "No pudimos cargar las piedras. Intenta de nuevo más tarde.";
+          setStones([]);
           setErrorMessage(cacheError);
           setStatus("error");
         }
@@ -74,5 +74,13 @@ export const useMaterials = () => {
     };
   }, []);
 
-  return { materials, status, errorMessage, isLoading: status === "loading" };
+  // Helper function to add a new stone to the cache
+  const addStoneToCache = (newStone: Stone) => {
+    if (cachedStones) {
+      cachedStones = [...cachedStones, newStone];
+      setStones(cachedStones);
+    }
+  };
+
+  return { stones, status, errorMessage, isLoading: status === "loading", addStoneToCache };
 };

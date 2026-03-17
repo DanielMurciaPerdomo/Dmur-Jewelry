@@ -23,13 +23,13 @@ export const BotonContactar = ({ items, className = "" }: BotonContactarProps) =
       try {
         const settings = await getSettings();
         const numero = settings?.whatsapp_number ?? FALLBACK_WHATSAPP_NUMBER;
-        const businessName = settings?.business_name || "nuestra joyería";
+        const businessName = settings?.business_name || "D´mur Joyería";
         const mensaje = buildWhatsappMessage(items, businessName);
         const url = buildWhatsappUrl(numero, mensaje);
         setWhatsappUrl(url);
       } catch (error) {
         // Fallback en caso de error
-        const mensaje = buildWhatsappMessage(items, "nuestra joyería");
+        const mensaje = buildWhatsappMessage(items, "D´mur Joyería");
         const url = buildWhatsappUrl(FALLBACK_WHATSAPP_NUMBER, mensaje);
         setWhatsappUrl(url);
       } finally {

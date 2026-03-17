@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { fetchMaterials } from "../services/materialsService";
-import type { Material } from "../types/joya.types";
+import { fetchProductTypes } from "../services/joyasService";
+import type { ProductType } from "../types/joya.types";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 // Global cache variables
-let cachedMaterials: Material[] | null = null;
+let cachedProductTypes: ProductType[] | null = null;
 let cacheStatus: Status = "idle";
 let cacheError: string | null = null;
-let promise: Promise<Material[]> | null = null;
+let promise: Promise<ProductType[]> | null = null;
 
-export const useMaterials = () => {
-  const [materials, setMaterials] = useState<Material[]>(cachedMaterials || []);
+export const useProductTypes = () => {
+  const [productTypes, setProductTypes] = useState<ProductType[]>(cachedProductTypes || []);
   const [status, setStatus] = useState<Status>(cacheStatus);
   const [errorMessage, setErrorMessage] = useState<string | null>(cacheError);
 
   useEffect(() => {
     // If data is already cached, return immediately
-    if (cachedMaterials !== null) {
-      setMaterials(cachedMaterials);
+    if (cachedProductTypes !== null) {
+      setProductTypes(cachedProductTypes);
       setStatus("success");
       return;
     }
@@ -30,14 +30,14 @@ export const useMaterials = () => {
       promise
         .then((data) => {
           if (!cancelled) {
-            setMaterials(data);
+            setProductTypes(data);
             setStatus("success");
           }
         })
         .catch((err) => {
           if (!cancelled) {
-            setMaterials([]);
-            setErrorMessage("No pudimos cargar los materiales. Intenta de nuevo más tarde.");
+            setProductTypes([]);
+            setErrorMessage("No pudimos cargar los tipos de producto. Intenta de nuevo más tarde.");
             setStatus("error");
           }
         });
@@ -47,23 +47,23 @@ export const useMaterials = () => {
     // Start the request
     setStatus("loading");
     setErrorMessage(null);
-    promise = fetchMaterials();
+    promise = fetchProductTypes();
 
     promise
       .then((data) => {
         if (!cancelled) {
-          cachedMaterials = data;
+          cachedProductTypes = data;
           cacheStatus = "success";
-          setMaterials(data);
+          setProductTypes(data);
           setStatus("success");
         }
       })
       .catch((err) => {
         if (!cancelled) {
-          cachedMaterials = null;
+          cachedProductTypes = null;
           cacheStatus = "error";
-          cacheError = "No pudimos cargar los materiales. Intenta de nuevo más tarde.";
-          setMaterials([]);
+          cacheError = "No pudimos cargar los tipos de producto. Intenta de nuevo más tarde.";
+          setProductTypes([]);
           setErrorMessage(cacheError);
           setStatus("error");
         }
@@ -74,5 +74,5 @@ export const useMaterials = () => {
     };
   }, []);
 
-  return { materials, status, errorMessage, isLoading: status === "loading" };
+  return { productTypes, status, errorMessage, isLoading: status === "loading" };
 };
