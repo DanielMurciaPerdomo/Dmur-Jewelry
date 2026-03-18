@@ -89,7 +89,7 @@ export const MaterialesGrid = () => {
       const created = await createMaterial({
         name: newMaterialName,
         description: newMaterialDescription,
-        material_value: newMaterialValue,
+        value_per_gram: newMaterialValue,
       });
       setMaterials([...materials, created]);
       setShowNewMaterialForm(false);
@@ -227,14 +227,14 @@ export const MaterialesGrid = () => {
 
               <div className="mb-2">
                 <label className="block text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-1">
-                  Valor del Material ($)
+                  Valor por Gramo ($)
                 </label>
                 {editingMaterialId === material.id ? (
                   <input
                     type="number"
-                    value={editedMaterial?.material_value || 0}
+                    value={editedMaterial?.value_per_gram || 0}
                     onChange={(e) =>
-                      handleUpdateField("material_value", parseFloat(e.target.value) || 0)
+                      handleUpdateField("value_per_gram", parseFloat(e.target.value) || 0)
                     }
                     step="0.01"
                     min="0"
@@ -242,7 +242,7 @@ export const MaterialesGrid = () => {
                   />
                 ) : (
                   <p className="text-lg font-bold text-metallic-gold-900 dark:text-ocean-mist-100">
-                    ${material.material_value.toFixed(2)}
+                    ${material.value_per_gram.toFixed(2)}
                   </p>
                 )}
               </div>

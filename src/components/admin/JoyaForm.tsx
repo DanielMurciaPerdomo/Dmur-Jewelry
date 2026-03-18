@@ -65,6 +65,7 @@ export const JoyaForm = () => {
     final_price: 0,
     active: true,
     featured: false,
+    weight_grams: 0,
     phy_url: "",
   });
 
@@ -96,6 +97,7 @@ export const JoyaForm = () => {
               final_price: product.final_price,
               active: product.active,
               featured: product.featured,
+              weight_grams: product.weight_grams || 0,
               phy_url: product.phy_url || "",
             });
             const [imagesData, productStonesData] = await Promise.all([
@@ -123,6 +125,32 @@ export const JoyaForm = () => {
     loadData();
   }, [id, isEditing, materialsLoading, typesLoading, stonesLoading, allStones]);
 
+  // Función para calcular el costo fijo basado en peso del material y piedras
+  const calculateFixedCost = (
+    weightGrams: number,
+    materialId: string,
+    stones: (ProductStone & { stone?: Stone })[]
+  ): number => {
+    if (!materialId) return 0;
+
+    // Encontrar el material seleccionado
+    const selectedMaterial = materials.find((m) => m.id === materialId);
+    if (!selectedMaterial) return 0;
+
+    // Calcular costo del material: peso (gramos) * valor por gramo
+    const materialCost = (weightGrams || 0) * (selectedMaterial.value_per_gram || 0);
+
+    // Calcular costo de las piedras: suma de (precio piedra * cantidad)
+    const stonesCost = stones.reduce((total, ps) => {
+      if (ps.stone && ps.quantity > 0) {
+        return total + ps.stone.stone_value * ps.quantity;
+      }
+      return total;
+    }, 0);
+
+    return materialCost + stonesCost;
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -133,6 +161,17 @@ export const JoyaForm = () => {
 
     setFormData((prev) => {
       const updated = { ...prev, [name]: newValue };
+
+      // Si cambia el peso, el material o las piedras, recalcular el costo fijo
+      if (name === "weight_grams" || name === "material_id") {
+        const weight = name === "weight_grams" ? parseFloat(value) || 0 : prev.weight_grams;
+        const materialId = name === "material_id" ? value : prev.material_id;
+        updated.fixed_cost = calculateFixedCost(weight, materialId, productStones);
+
+        // Recalcular precio final con el nuevo costo
+        updated.final_price =
+          Math.round(updated.fixed_cost * (1 + updated.margin_percentage / 100) * 100) / 100;
+      }
 
       // Calcular precio final si cambian fixed_cost o margin_percentage
       if (name === "fixed_cost" || name === "margin_percentage") {
@@ -167,7 +206,20 @@ export const JoyaForm = () => {
       stone: stone,
     };
 
-    setProductStones([...productStones, newProductStone]);
+    const updatedStones = [...productStones, newProductStone];
+    setProductStones(updatedStones);
+
+    // Recalcular costo fijo con las nuevas piedras
+    const newFixedCost = calculateFixedCost(
+      formData.weight_grams,
+      formData.material_id,
+      updatedStones
+    );
+    setFormData((prev) => ({
+      ...prev,
+      fixed_cost: newFixedCost,
+      final_price: Math.round(newFixedCost * (1 + prev.margin_percentage / 100) * 100) / 100,
+    }));
   };
 
   const handleCreateAndAddStone = async () => {
@@ -197,7 +249,20 @@ export const JoyaForm = () => {
         stone: newStone,
       };
 
-      setProductStones([...productStones, newProductStone]);
+      const updatedStones = [...productStones, newProductStone];
+      setProductStones(updatedStones);
+
+      // Recalcular costo fijo con las nuevas piedras
+      const newFixedCost = calculateFixedCost(
+        formData.weight_grams,
+        formData.material_id,
+        updatedStones
+      );
+      setFormData((prev) => ({
+        ...prev,
+        fixed_cost: newFixedCost,
+        final_price: Math.round(newFixedCost * (1 + prev.margin_percentage / 100) * 100) / 100,
+      }));
 
       // Reset form
       setNewStoneName("");
@@ -211,13 +276,39 @@ export const JoyaForm = () => {
   };
 
   const handleRemoveStone = (stoneId: string) => {
-    setProductStones(productStones.filter((ps) => ps.stone_id !== stoneId));
+    const updatedStones = productStones.filter((ps) => ps.stone_id !== stoneId);
+    setProductStones(updatedStones);
+
+    // Recalcular costo fijo sin la piedra eliminada
+    const newFixedCost = calculateFixedCost(
+      formData.weight_grams,
+      formData.material_id,
+      updatedStones
+    );
+    setFormData((prev) => ({
+      ...prev,
+      fixed_cost: newFixedCost,
+      final_price: Math.round(newFixedCost * (1 + prev.margin_percentage / 100) * 100) / 100,
+    }));
   };
 
   const handleUpdateStoneQuantity = (stoneId: string, quantity: number) => {
-    setProductStones(
-      productStones.map((ps) => (ps.stone_id === stoneId ? { ...ps, quantity } : ps))
+    const updatedStones = productStones.map((ps) =>
+      ps.stone_id === stoneId ? { ...ps, quantity } : ps
     );
+    setProductStones(updatedStones);
+
+    // Recalcular costo fijo con las piedras actualizadas
+    const newFixedCost = calculateFixedCost(
+      formData.weight_grams,
+      formData.material_id,
+      updatedStones
+    );
+    setFormData((prev) => ({
+      ...prev,
+      fixed_cost: newFixedCost,
+      final_price: Math.round(newFixedCost * (1 + prev.margin_percentage / 100) * 100) / 100,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -375,6 +466,21 @@ export const JoyaForm = () => {
                 ))}
               </select>
             </div>
+            <div>
+              <label className="block text-sm font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-1">
+                Peso (gramos)
+              </label>
+              <input
+                type="number"
+                name="weight_grams"
+                value={formData.weight_grams}
+                onChange={handleChange}
+                step="0.01"
+                min="0"
+                required
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+              />
+            </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-1">
                 Descripción
@@ -528,6 +634,48 @@ export const JoyaForm = () => {
               <h2 className="text-lg font-semibold mb-4 text-metallic-gold-900 dark:text-ocean-mist-100">
                 Precios
               </h2>
+
+              {/* Desglose del costo fijo */}
+              <div className="mb-4 p-4 bg-metallic-gold-50 dark:bg-slate-800 rounded-md">
+                <h3 className="text-sm font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-2">
+                  Desglose del Costo Fijo
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-metallic-gold-700 dark:text-ocean-mist-300">
+                      Costo Material ({formData.weight_grams}g × $
+                      {materials
+                        .find((m) => m.id === formData.material_id)
+                        ?.value_per_gram?.toFixed(2) || "0.00"}
+                      /g):
+                    </span>
+                    <span className="font-semibold text-metallic-gold-900 dark:text-ocean-mist-100 ml-2">
+                      $
+                      {(
+                        formData.weight_grams *
+                        (materials.find((m) => m.id === formData.material_id)?.value_per_gram || 0)
+                      ).toFixed(2)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-metallic-gold-700 dark:text-ocean-mist-300">
+                      Costo Piedras ({productStones.length} tipos):
+                    </span>
+                    <span className="font-semibold text-metallic-gold-900 dark:text-ocean-mist-100 ml-2">
+                      $
+                      {productStones
+                        .reduce((total, ps) => {
+                          if (ps.stone && ps.quantity > 0) {
+                            return total + ps.stone.stone_value * ps.quantity;
+                          }
+                          return total;
+                        }, 0)
+                        .toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-1">
@@ -537,10 +685,10 @@ export const JoyaForm = () => {
                     type="number"
                     name="fixed_cost"
                     value={formData.fixed_cost}
-                    onChange={handleChange}
+                    readOnly
                     step="0.01"
                     min="0"
-                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-gray-100 dark:bg-slate-700 text-metallic-gold-900 dark:text-ocean-mist-100"
                   />
                 </div>
                 <div>

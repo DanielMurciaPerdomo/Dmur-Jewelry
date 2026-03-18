@@ -11,7 +11,7 @@ type RawProductRow = Joya & {
   materials?: {
     id: string;
     name: string;
-    material_value: number;
+    value_per_gram: number;
     description: string;
     created_at: string;
     updated_at: string;
@@ -34,11 +34,11 @@ type RawProductRow = Joya & {
 };
 
 const baseProductSelectPublic = `
-  id, name, slug, description, material_id, product_type_id, sku, fixed_cost, margin_percentage, final_price, active, featured, created_at, updated_at,
+  id, name, slug, description, material_id, product_type_id, sku, fixed_cost, margin_percentage, final_price, active, featured, weight_grams, created_at, updated_at,
   materials (
     id,
     name,
-    material_value,
+    value_per_gram,
     description,
     created_at,
     updated_at
@@ -79,7 +79,7 @@ const baseProductSelectAdmin = `
   materials (
     id,
     name,
-    material_value,
+    value_per_gram,
     description,
     created_at,
     updated_at
@@ -137,6 +137,7 @@ const mapRawProduct = (row: RawProductRow): JoyaWithRelations => {
     final_price: row.final_price,
     active: row.active,
     featured: row.featured,
+    weight_grams: row.weight_grams,
     phy_url: row.phy_url,
     created_at: row.created_at,
     updated_at: row.updated_at,
