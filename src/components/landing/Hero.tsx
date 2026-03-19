@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { buildWhatsappUrl, FALLBACK_WHATSAPP_NUMBER } from "../../utils/whatsapp";
+import logo from "../../assets/Dmur-logo.png";
 
 type HeroProps = {
   whatsappNumber?: string | null;
@@ -25,12 +26,14 @@ export const Hero = ({ whatsappNumber, businessName }: HeroProps) => {
       />
 
       <div className="relative mx-auto flex min-h-[75vh] max-w-5xl flex-col items-center justify-center px-4 py-20 text-center">
-        <p className="mb-2 text-sm font-medium uppercase tracking-[0.2em] text-metallic-gold-700 dark:text-ocean-mist-400">
-          Joyería artesanal
+        <img
+          src={logo}
+          alt="Logo D'mur Joyería"
+          className="h-[154px] w-auto object-contain md:h-48 lg:h-60"
+        />
+        <p className="mt-2 text-sm font-medium uppercase tracking-[0.2em] text-metallic-gold-700 dark:text-ocean-mist-400">
+          ARTESANAL
         </p>
-        <h1 className="font-serif text-5xl font-light tracking-tight text-metallic-gold-900 dark:text-ocean-mist-100 sm:text-6xl md:text-7xl">
-          {businessName || "D´mur Joyería"}
-        </h1>
         <p className="mt-4 max-w-xl text-lg text-metallic-gold-800/90 dark:text-ocean-mist-200/95 sm:text-xl">
           Elegancia en cada detalle. Piezas hechas a mano y personalizadas para acompañarte siempre.
         </p>

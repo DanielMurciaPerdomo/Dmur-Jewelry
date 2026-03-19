@@ -1,16 +1,22 @@
-import { useSettingsContext } from "../../context/SettingsContext";
+import logoLargo from "../../assets/Dmur-logo-largo.png";
 
 export const Footer = () => {
-  const { settings } = useSettingsContext();
-  const businessName = settings?.business_name || "D´mur Joyería";
-
   return (
     <footer className="border-t border-metallic-gold-400 bg-metallic-gold-400 dark:border-ocean-mist-800/60 dark:bg-slate-950/90">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-5 font-serif text-xl text-metallic-gold-900 dark:text-ocean-mist-100 sm:flex-row">
-        <span>
-          {businessName} · {new Date().getFullYear()}
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-5 sm:flex-row">
+        <div className="flex items-center gap-2">
+          <img
+            src={logoLargo}
+            alt="Logo D'mur Joyería"
+            className="h-12 w-auto object-contain mb-4"
+          />
+          <span className="font-serif text-xl text-metallic-gold-900 dark:text-ocean-mist-100">
+            · {new Date().getFullYear()}
+          </span>
+        </div>
+        <span className="font-serif text-xl text-metallic-gold-900 dark:text-ocean-mist-100">
+          Todos los derechos reservados
         </span>
-        <span>Todos los derechos reservados</span>
       </div>
     </footer>
   );
