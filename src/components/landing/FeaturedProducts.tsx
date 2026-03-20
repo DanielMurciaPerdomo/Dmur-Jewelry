@@ -50,7 +50,7 @@ export const FeaturedProducts = () => {
         <p className="mx-auto mt-3 max-w-2xl text-center text-base text-metallic-gold-700 dark:text-ocean-mist-300">
           Una selección de piezas que nos gustaría que conocieras.
         </p>
-
+          
         <div className="mt-10">
           {isLoading && (
             <div className="flex min-h-[200px] items-center justify-center">

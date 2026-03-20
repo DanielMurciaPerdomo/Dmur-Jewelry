@@ -19,11 +19,15 @@ export const getProductImages = async (productId: string): Promise<ProductImage[
   return (data ?? []) as ProductImage[];
 };
 
-export const uploadProductImage = async (
-  productId: string,
-  file: File
-): Promise<ProductImage> => {
-  const filePath = `${productId}/${Date.now()}-${file.name}`;
+export const uploadProductImage = async (productId: string, file: File): Promise<ProductImage> => {
+  // Sanitizar el nombre del archivo: reemplazar espacios por guiones y eliminar caracteres especiales
+  const sanitizedFileName = file.name
+    .trim()
+    .replace(/\s+/g, "-") // Espacios a guiones
+    .replace(/[^a-zA-Z0-9.-]/g, "_") // Caracteres especiales a guiones bajos
+    .replace(/--+/g, "-"); // Múltiples guiones a uno solo
+
+  const filePath = `${productId}/${Date.now()}-${sanitizedFileName}`;
 
   const { error: uploadError } = await supabase.storage
     .from(PRODUCTS_BUCKET)
@@ -102,5 +106,4 @@ export const deleteProductImage = async (image: ProductImage): Promise<void> => 
   if (error) {
     throw error;
   }
-}
-
+};

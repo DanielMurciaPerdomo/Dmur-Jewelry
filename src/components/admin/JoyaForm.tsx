@@ -125,10 +125,11 @@ export const JoyaForm = () => {
     loadData();
   }, [id, isEditing, materialsLoading, typesLoading, stonesLoading, allStones]);
 
-  // Función para calcular el costo fijo basado en peso del material y piedras
+  // Función para calcular el costo fijo basado en peso del material, piedras y tipo de producto
   const calculateFixedCost = (
     weightGrams: number,
     materialId: string,
+    productTypeId: string,
     stones: (ProductStone & { stone?: Stone })[]
   ): number => {
     if (!materialId) return 0;
@@ -148,7 +149,11 @@ export const JoyaForm = () => {
       return total;
     }, 0);
 
-    return materialCost + stonesCost;
+    // Obtener el costo base del tipo de producto
+    const selectedProductType = productTypes.find((pt) => pt.id === productTypeId);
+    const typeCost = selectedProductType?.type_value || 0;
+
+    return materialCost + stonesCost + typeCost;
   };
 
   const handleChange = (
@@ -162,11 +167,12 @@ export const JoyaForm = () => {
     setFormData((prev) => {
       const updated = { ...prev, [name]: newValue };
 
-      // Si cambia el peso, el material o las piedras, recalcular el costo fijo
-      if (name === "weight_grams" || name === "material_id") {
+      // Si cambia el peso, el material, el tipo de producto o las piedras, recalcular el costo fijo
+      if (name === "weight_grams" || name === "material_id" || name === "product_type_id") {
         const weight = name === "weight_grams" ? parseFloat(value) || 0 : prev.weight_grams;
         const materialId = name === "material_id" ? value : prev.material_id;
-        updated.fixed_cost = calculateFixedCost(weight, materialId, productStones);
+        const productTypeId = name === "product_type_id" ? value : prev.product_type_id;
+        updated.fixed_cost = calculateFixedCost(weight, materialId, productTypeId, productStones);
 
         // Recalcular precio final con el nuevo costo
         updated.final_price =
@@ -213,6 +219,7 @@ export const JoyaForm = () => {
     const newFixedCost = calculateFixedCost(
       formData.weight_grams,
       formData.material_id,
+      formData.product_type_id,
       updatedStones
     );
     setFormData((prev) => ({
@@ -256,6 +263,7 @@ export const JoyaForm = () => {
       const newFixedCost = calculateFixedCost(
         formData.weight_grams,
         formData.material_id,
+        formData.product_type_id,
         updatedStones
       );
       setFormData((prev) => ({
@@ -283,6 +291,7 @@ export const JoyaForm = () => {
     const newFixedCost = calculateFixedCost(
       formData.weight_grams,
       formData.material_id,
+      formData.product_type_id,
       updatedStones
     );
     setFormData((prev) => ({
@@ -302,6 +311,7 @@ export const JoyaForm = () => {
     const newFixedCost = calculateFixedCost(
       formData.weight_grams,
       formData.material_id,
+      formData.product_type_id,
       updatedStones
     );
     setFormData((prev) => ({
@@ -640,7 +650,7 @@ export const JoyaForm = () => {
                 <h3 className="text-sm font-medium text-metallic-gold-700 dark:text-ocean-mist-300 mb-2">
                   Desglose del Costo Fijo
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
                     <span className="text-metallic-gold-700 dark:text-ocean-mist-300">
                       Costo Material ({formData.weight_grams}g × $
@@ -654,6 +664,18 @@ export const JoyaForm = () => {
                       {(
                         formData.weight_grams *
                         (materials.find((m) => m.id === formData.material_id)?.value_per_gram || 0)
+                      ).toFixed(2)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-metallic-gold-700 dark:text-ocean-mist-300">
+                      Costo Tipo Producto:
+                    </span>
+                    <span className="font-semibold text-metallic-gold-900 dark:text-ocean-mist-100 ml-2">
+                      $
+                      {(
+                        productTypes.find((pt) => pt.id === formData.product_type_id)?.type_value ||
+                        0
                       ).toFixed(2)}
                     </span>
                   </div>
@@ -757,7 +779,13 @@ export const JoyaForm = () => {
 
             {/* Imágenes */}
             <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
-              <ImageUploader productId={id} existingImages={images} onImagesChange={setImages} />
+              <ImageUploader
+                productId={id}
+                existingImages={images}
+                onImagesChange={(updater) =>
+                  setImages((prev) => (typeof updater === "function" ? updater(prev) : updater))
+                }
+              />
             </div>
           </>
         )}
