@@ -15,13 +15,25 @@ El proyecto **Dmur Jewelry** se encuentra en una fase avanzada de desarrollo, co
 | 5 — Admin    | ✅ Completo  | Login, CRUD productos, gestión imágenes             |
 | 6 — Deploy   | ⏳ Pendiente | Vercel + dominio                                    |
 
-### Optimizaciones Recientes
+### Características Implementadas
 
-Se ha implementado una optimización de rendimiento en `JoyaForm.tsx` para evitar recargas innecesarias de datos:
+**Panel de Administración Completo**
 
-- **Hooks con Caching Global**: Se crearon `useProductTypes` y `useStones`, y se actualizó `useMaterials` para implementar un patrón de singleton con caché global.
-- **Mejora de Rendimiento**: Los datos de materiales, tipos de producto y piedras ahora se cargan una sola vez por sesión de la aplicación, evitando llamadas a la API redundantes al navegar entre formularios.
-- **Componente `JoyaForm` Actualizado**: Ahora utiliza estos hooks en lugar de realizar llamadas directas a los servicios, mejorando la experiencia de usuario en el panel de administración.
+- **Dashboard (`DashboardAdmin`)**: Muestra métricas clave como resumen de joyas (totales, activas, inactivas, destacadas), distribución por tipo y material, estadísticas de precios (promedio, máximo, mínimo, margen promedio), estadísticas de contenido (total de materiales, tipos y piedras) y alertas para productos sin imágenes o inactivos.
+- **Gestión de Piedras (`PiedrasTabla`, `PiedrasForm`)**: CRUD completo para administrar el catálogo de piedras disponibles.
+- **Gestión de Materiales (`MaterialesGrid`)**: Interfaz para crear, editar y eliminar materiales.
+- **Configuración (`Configuracion`)**: Página para gestionar número de WhatsApp, nombre del negocio y moneda.
+
+**Optimización de Rendimiento**
+
+- **Hooks con Caché Global**: `useMaterials`, `useProductTypes` y `useStones` implementan un patrón de singleton con caché global, cargando datos estáticos solo una vez por sesión.
+- **`useSettings`**: Hook dedicado para acceder a la configuración global.
+
+**Formulario de Productos (`JoyaForm`)**
+
+- **Cálculo Dinámico de Precios**: El `fixed_cost` se calcula automáticamente en base al peso del material, piedras asociadas y tipo de producto. El `final_price` se deriva del costo fijo y el margen.
+- **Gestión Integrada de Piedras**: Permite asociar piedras existentes, crear nuevas piedras al vuelo y ajustar cantidades.
+- **Campo `phy_url`**: Nueva columna para registrar la ruta física de las imágenes.
 
 ---
 
@@ -42,19 +54,33 @@ Se ha implementado una optimización de rendimiento en `JoyaForm.tsx` para evita
 ```
 src/
 ├── components/
-│   ├── ui/          # Componentes genéricos (Button, Modal, Spinner)
+│   ├── ui/          # Button, Modal, Spinner
 │   ├── landing/     # Hero, About, Materials, FeaturedProducts, CTAFinal
 │   ├── catalog/     # JoyaCard, JoyaGrid, FiltrosCatalogo
 │   ├── cart/        # CarritoDrawer, CarritoItem, BotonContactar
-│   ├── admin/       # AdminLogin, JoyaForm, JoyaTabla, ImageUploader, DashboardAdmin
-│   └── layout/      # Navbar, Footer
-├── pages/           # Landing, Catalogo, Carrito, Configuracion, NotFound
-├── hooks/           # useCarrito, useJoyas, useFeaturedJoyas, useAuth
-├── context/         # CarritoContext, AuthContext
-├── services/        # supabaseClient, joyasService, imagenesService, settingsService, authService, dashboardService
-├── types/           # joya.types.ts, auth.types.ts
-├── utils/           # whatsapp.ts, formatters.ts
-└── router/          # AppRouter.tsx, ProtectedRoute.tsx
+│   ├── admin/        # AdminLogin, AdminLayout, JoyaForm, JoyaTabla,
+│   │                 # ImageUploader, DashboardAdmin, PiedrasTabla,
+│   │                 # PiedrasForm, MaterialesGrid
+│   └── layout/       # Navbar, Footer
+├── pages/            # Landing, Catalogo, Carrito, Configuracion, NotFound
+├── hooks/            # useAuth, useCarrito, useJoyas, useFeaturedJoyas,
+│                      # useMaterials, useProductTypes, useStones,
+│                      # useSettings, useTheme
+├── context/          # AuthContext, CarritoContext, SettingsContext
+├── services/         # supabaseClient, joyasService, imagenesService,
+│                      # settingsService, authService, dashboardService,
+│                      # materialsService, piedrasService, productStonesService
+├── types/            # joya.types.ts, auth.types.ts
+├── utils/            # whatsapp.ts, formatters.ts
+└── router/           # AppRouter.tsx, ProtectedRoute.tsx
+
+public/
+├── Dmur.png              # Logo principal
+├── android-chrome-*.png # Iconos PWA para Android
+├── apple-touch-icon.png  # Icono para iOS
+├── favicon-*.png         # Favicons múltiples tamaños
+├── favicon.ico           # Favicon legacy
+└── site.webmanifest     # Manifesto PWA
 ```
 
 ---
@@ -67,13 +93,14 @@ El esquema se mantiene en la carpeta `supabase/` y está alineado con `Markdown/
 
 - `supabase/01_schema.sql`: Crea tablas, índices y triggers de `updated_at`.
 - `supabase/02_rls_policies.sql`: Activa RLS y crea las políticas de acceso.
-- `supabase/03_seeds.sql`: Inserta datos iniciales (materiales, tipos, piedras, settings).
+- `supabase/03_seeds_examples.sql`: Inserta datos iniciales (materiales, tipos, piedras, settings).
+- `supabase/04_add_phy_url.sql`: Agrega la columna `phy_url` a la tabla `products` para almacenar la ruta física de las imágenes.
 
 ### 4.2. Tablas Principales
 
 - **materials**: Materiales disponibles (Oro 18K, Plata 925, etc.).
 - **product_types**: Tipos de producto (Anillo, Collar, Pulsera, Aretes).
-- **products**: Catálogo principal de joyas.
+- **products**: Catálogo principal de joyas (incluye `phy_url`).
 - **stones**: Piedras disponibles.
 - **product_stones**: Relación many-to-many productos ↔ piedras.
 - **product_images**: Imágenes de cada producto (en Supabase Storage).
@@ -99,6 +126,10 @@ El esquema se mantiene en la carpeta `supabase/` y está alineado con `Markdown/
 | `/admin/productos`            | `JoyaTabla`      | Tabla de productos (CRUD)         |
 | `/admin/productos/nuevo`      | `JoyaForm`       | Formulario para nuevo producto    |
 | `/admin/productos/:id/editar` | `JoyaForm`       | Formulario para editar producto   |
+| `/admin/piedras`              | `PiedrasTabla`   | Tabla de piedras (CRUD)           |
+| `/admin/piedras/nueva`        | `PiedrasForm`    | Formulario para nueva piedra      |
+| `/admin/piedras/:id/editar`   | `PiedrasForm`    | Formulario para editar piedra     |
+| `/admin/materiales`           | `MaterialesGrid` | Grid de materiales (CRUD)         |
 | `/admin/configuracion`        | `Configuracion`  | Configuración del negocio         |
 | `*`                           | `NotFound`       | Página de error 404               |
 
@@ -163,4 +194,5 @@ La fase actual es **Fase 6 — Deploy**. Los pasos pendientes son:
 | `Markdown/plan-base-de-datos.md` | Modelo de datos detallado con SQL  |
 | `supabase/01_schema.sql`         | DDL ejecutado en Supabase          |
 | `supabase/02_rls_policies.sql`   | Políticas RLS ejecutadas           |
-| `supabase/03_seeds.sql`          | Datos iniciales de prueba          |
+| `supabase/03_seeds_examples.sql` | Datos iniciales de prueba          |
+| `supabase/04_add_phy_url.sql`    | Migración para columna phy_url     |
