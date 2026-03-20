@@ -125,6 +125,15 @@ export const JoyaForm = () => {
     loadData();
   }, [id, isEditing, materialsLoading, typesLoading, stonesLoading, allStones]);
 
+  // Función para generar slug automáticamente
+  const generateSlug = (name: string, materialName: string, sku: string): string => {
+    const formatPart = (str: string) => str.trim().replace(/\s+/g, "-");
+    const nameSlug = formatPart(name);
+    const materialSlug = formatPart(materialName);
+    const skuPart = sku ? sku.slice(-3) : Math.floor(Math.random() * 900 + 100).toString();
+    return `${nameSlug}-${materialSlug}-${skuPart}`;
+  };
+
   // Función para calcular el costo fijo basado en peso del material, piedras y tipo de producto
   const calculateFixedCost = (
     weightGrams: number,
@@ -349,8 +358,12 @@ export const JoyaForm = () => {
 
         navigate("/admin/productos");
       } else {
-        // Step 1: Save basic info and go to edit mode
-        result = await createProduct(formData);
+        // Step 1: Generate slug and save basic info, then go to edit mode
+        const selectedMaterial = materials.find((m) => m.id === formData.material_id);
+        const materialName = selectedMaterial?.name || "";
+        const generatedSlug = generateSlug(formData.name, materialName, formData.sku || "");
+        const formDataWithSlug = { ...formData, slug: generatedSlug };
+        result = await createProduct(formDataWithSlug);
         // Store the temp ID for cancellation handling
         setTempProductId(result.id);
         navigate(`/admin/productos/${result.id}/editar`);
