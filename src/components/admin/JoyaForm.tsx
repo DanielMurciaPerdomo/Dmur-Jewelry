@@ -779,7 +779,13 @@ export const JoyaForm = () => {
 
             {/* Imágenes */}
             <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
-              <ImageUploader productId={id} existingImages={images} onImagesChange={setImages} />
+              <ImageUploader
+                productId={id}
+                existingImages={images}
+                onImagesChange={(updater) =>
+                  setImages((prev) => (typeof updater === "function" ? updater(prev) : updater))
+                }
+              />
             </div>
           </>
         )}
