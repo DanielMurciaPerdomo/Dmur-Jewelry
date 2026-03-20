@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Landing } from "../pages/Landing";
 import { Catalogo } from "../pages/Catalogo";
 import { CarritoPage } from "../pages/Carrito";
+import { DetalleJoya } from "../pages/DetalleJoya";
 import { DashboardAdmin } from "../components/admin/Dashboard-Admin";
 import { NotFound } from "../pages/NotFound";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -19,6 +20,7 @@ export const AppRouter = () => {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/catalogo" element={<Catalogo />} />
+      <Route path="/joya/:slug" element={<DetalleJoya />} />
       <Route path="/carrito" element={<CarritoPage />} />
 
       {/* Admin Routes */}

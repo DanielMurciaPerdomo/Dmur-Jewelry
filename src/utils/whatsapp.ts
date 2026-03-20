@@ -1,7 +1,27 @@
-import type { CarritoItem } from "../types/joya.types";
+import type { CarritoItem, JoyaWithRelations } from "../types/joya.types";
 
 /** Número solo dígitos, sin +. Usar hasta que exista settings.whatsapp_number en Supabase. */
 export const FALLBACK_WHATSAPP_NUMBER = "573000000000";
+
+export const buildSingleProductMessage = (
+  product: JoyaWithRelations,
+  businessName: string = "D´mur Joyería"
+): string => {
+  const lines: string[] = [
+    `Hola! Me interesa este producto de ${businessName}:`,
+    "",
+    `${product.name} - ${product.final_price} COP`,
+    `Tipo: ${product.product_type?.name || "N/A"}`,
+    product.material?.name ? `Material: ${product.material.name}` : null,
+    product.stones && product.stones.length > 0
+      ? `Piedras: ${product.stones.map((s) => `${s.stone_type} x${s.quantity}`).join(", ")}`
+      : null,
+    "",
+    "Me gustaría recibir más información. ¡Gracias!",
+  ].filter((line) => line !== null) as string[];
+
+  return lines.join("\n");
+};
 
 export const buildWhatsappMessage = (
   items: CarritoItem[],

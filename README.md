@@ -17,6 +17,13 @@ El proyecto **Dmur Jewelry** se encuentra en una fase avanzada de desarrollo, co
 
 ### Características Implementadas
 
+**Página de Detalle de Producto (`DetalleJoya`)**
+
+- **Vista Detallada**: Al hacer clic en cualquier producto (no en "Agregar al carrito"), se muestra una página dedicada con información completa del producto.
+- **Carrusel de Imágenes**: Galería horizontal para navegar entre todas las imágenes del producto.
+- **Acciones Rápidas**: Botones para agregar al carrito, contactar por WhatsApp (solo este producto) o volver al catálogo.
+- **Estados Completos**: Manejo de loading, error y éxito con UI consistente.
+
 **Panel de Administración Completo**
 
 - **Dashboard (`DashboardAdmin`)**: Muestra métricas clave como resumen de joyas (totales, activas, inactivas, destacadas), distribución por tipo y material, estadísticas de precios (promedio, máximo, mínimo, margen promedio), estadísticas de contenido (total de materiales, tipos y piedras) y alertas para productos sin imágenes o inactivos.
@@ -62,7 +69,7 @@ src/
 │   │                 # ImageUploader, DashboardAdmin, PiedrasTabla,
 │   │                 # PiedrasForm, MaterialesGrid
 │   └── layout/       # Navbar, Footer
-├── pages/            # Landing, Catalogo, Carrito, Configuracion, NotFound
+├── pages/            # Landing, Catalogo, Carrito, DetalleJoya, Configuracion, NotFound
 ├── hooks/            # useAuth, useCarrito, useJoyas, useFeaturedJoyas,
 │                      # useMaterials, useProductTypes, useStones,
 │                      # useSettings, useTheme
@@ -119,6 +126,7 @@ El esquema se mantiene en la carpeta `supabase/` y está alineado con `Markdown/
 | ----------------------------- | ---------------- | --------------------------------- |
 | `/`                           | `Landing`        | Página de inicio pública          |
 | `/catalogo`                   | `Catalogo`       | Catálogo de joyas público         |
+| `/joya/:slug`                 | `DetalleJoya`    | Detalle de producto con galería   |
 | `/carrito`                    | `CarritoPage`    | Carrito de interés                |
 | `/admin/login`                | `AdminLogin`     | Login del panel de administración |
 | `/admin`                      | `AdminLayout`    | Layout principal del admin        |
@@ -137,13 +145,21 @@ El esquema se mantiene en la carpeta `supabase/` y está alineado con `Markdown/
 
 ## 6. Flujo de WhatsApp
 
-El proyecto genera enlaces de WhatsApp para que los clientes contacten al joyero directamente desde el carrito o la landing page.
+El proyecto genera enlaces de WhatsApp para que los clientes contacten al joyero directamente.
 
 ```typescript
 // utils/whatsapp.ts
-const mensaje = generarMensajeCarrito(carritoItems, total);
+// Mensaje de producto único (desde DetalleJoya)
+const mensaje = buildSingleProductMessage(product);
+const url = buildWhatsappUrl(whatsapp_number, mensaje);
+
+// Mensaje de carrito (desde CarritoPage o CarritoDrawer)
+const mensaje = buildWhatsappMessage(carritoItems);
 const url = `https://wa.me/${whatsapp_number}?text=${encodeURIComponent(mensaje)}`;
 ```
+
+- **Desde detalle de producto**: El mensaje contiene solo la joya específica consultada.
+- **Desde carrito**: El mensaje contiene todos los productos del carrito.
 
 El número de WhatsApp se obtiene desde la tabla `settings` en Supabase.
 
