@@ -1,14 +1,39 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Joya } from "../../types/joya.types";
-import {
-  fetchActiveProducts,
-  fetchProductSuggestionsByName,
-  fetchProductSuggestionsBySku,
-  deleteProduct,
-} from "../../services/joyasService";
+import { fetchAllProducts, deleteProduct } from "../../services/joyasService";
+import { supabase } from "../../services/supabaseClient";
 import { Button } from "../ui/Button";
 import { useProductTypes } from "../../hooks/useProductTypes";
+import { useFiltrosContext } from "../../context/FiltrosContext";
+
+const fetchProductSuggestionsByName = async (nameTerm: string) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, name, slug, sku")
+    .ilike("name", `%${nameTerm}%`)
+    .limit(10)
+    .order("name", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+  return data ?? [];
+};
+
+const fetchProductSuggestionsBySku = async (skuTerm: string) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, name, slug, sku")
+    .ilike("sku", `%${skuTerm}%`)
+    .limit(10)
+    .order("sku", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+  return data ?? [];
+};
 
 export const JoyaTabla = () => {
   const [products, setProducts] = useState<Joya[]>([]);
@@ -25,8 +50,12 @@ export const JoyaTabla = () => {
   const [inputSku, setInputSku] = useState("");
 
   // Estados para las sugerencias
-  const [nameSuggestions, setNameSuggestions] = useState<Joya[]>([]);
-  const [skuSuggestions, setSkuSuggestions] = useState<Joya[]>([]);
+  const [nameSuggestions, setNameSuggestions] = useState<
+    { id: string; name: string; sku: string | null }[]
+  >([]);
+  const [skuSuggestions, setSkuSuggestions] = useState<
+    { id: string; name: string; sku: string | null }[]
+  >([]);
   const [showNameSuggestions, setShowNameSuggestions] = useState(false);
   const [showSkuSuggestions, setShowSkuSuggestions] = useState(false);
 
@@ -34,12 +63,13 @@ export const JoyaTabla = () => {
   const skuInputRef = useRef<HTMLInputElement>(null);
 
   const { productTypes, isLoading: productTypesLoading } = useProductTypes();
+  const { invalidateProductsCache } = useFiltrosContext();
 
   // Cargar productos cuando cambian los filtros finales
   const loadProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchActiveProducts({
+      const data = await fetchAllProducts({
         name: finalSearchName,
         sku: finalSearchSku,
         productTypeId: selectedProductTypeId,
@@ -97,14 +127,22 @@ export const JoyaTabla = () => {
     return () => clearTimeout(handler);
   }, [inputSku]);
 
-  const handleSelectNameSuggestion = (suggestion: Joya) => {
+  const handleSelectNameSuggestion = (suggestion: {
+    id: string;
+    name: string;
+    sku: string | null;
+  }) => {
     setInputName(suggestion.name);
     setFinalSearchName(suggestion.name);
     setShowNameSuggestions(false);
     loadProducts();
   };
 
-  const handleSelectSkuSuggestion = (suggestion: Joya) => {
+  const handleSelectSkuSuggestion = (suggestion: {
+    id: string;
+    name: string;
+    sku: string | null;
+  }) => {
     setInputSku(suggestion.sku || "");
     setFinalSearchSku(suggestion.sku || "");
     setShowSkuSuggestions(false);
@@ -149,6 +187,7 @@ export const JoyaTabla = () => {
     try {
       await deleteProduct(id);
       setProducts(products.filter((p) => p.id !== id));
+      invalidateProductsCache();
     } catch (err) {
       setError("Error al eliminar el producto.");
       console.error(err);
@@ -301,7 +340,10 @@ export const JoyaTabla = () => {
                 Precio
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
-                Activo
+                Activa
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
+                Destacada
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
                 Acciones
@@ -328,15 +370,27 @@ export const JoyaTabla = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {product.active ? (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-metallic-gold-300 text-metallic-gold-900  dark:bg-ocean-mist-600 dark:text-white">
                       Sí
                     </span>
                   ) : (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-metallic-gold-600 text-white dark:bg-ocean-mist-900 dark:text-ocean-mist-300">
                       No
                     </span>
                   )}
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {product.featured ? (
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-metallic-gold-300 text-metallic-gold-900  dark:bg-ocean-mist-600 dark:text-white">
+                      Sí
+                    </span>
+                  ) : (
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-metallic-gold-600 text-white dark:bg-ocean-mist-900 dark:text-ocean-mist-300">
+                      No
+                    </span>
+                  )}
+                </td>
+
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                   <Link
                     to={`/admin/productos/${product.id}/editar`}

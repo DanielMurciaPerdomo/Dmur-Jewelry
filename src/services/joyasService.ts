@@ -175,6 +175,32 @@ export const fetchActiveProducts = async (filters?: {
   return (data ?? []) as unknown as Joya[];
 };
 
+export const fetchAllProducts = async (filters?: {
+  name?: string;
+  sku?: string;
+  productTypeId?: string;
+}): Promise<Joya[]> => {
+  let query = supabase.from("products").select("*");
+
+  if (filters?.name) {
+    query = query.ilike("name", `%${filters.name}%`);
+  }
+  if (filters?.sku) {
+    query = query.ilike("sku", `%${filters.sku}%`);
+  }
+  if (filters?.productTypeId) {
+    query = query.eq("product_type_id", filters.productTypeId);
+  }
+
+  const { data, error } = await query.order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []) as unknown as Joya[];
+};
+
 export const fetchActiveProductsWithRelations = async (): Promise<JoyaWithRelations[]> => {
   const { data, error } = await supabase
     .from("products")

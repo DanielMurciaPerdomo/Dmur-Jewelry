@@ -18,6 +18,7 @@ import {
 import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
 import { ImageUploader } from "./ImageUploader";
+import { useFiltrosContext } from "../../context/FiltrosContext";
 import type { ProductImage } from "../../types/joya.types";
 import { getProductImages } from "../../services/imagenesService";
 import { useMaterials } from "../../hooks/useMaterials";
@@ -43,6 +44,7 @@ export const JoyaForm = () => {
   const { materials, isLoading: materialsLoading } = useMaterials();
   const { productTypes, isLoading: typesLoading } = useProductTypes();
   const { stones: allStones, isLoading: stonesLoading, addStoneToCache } = useStones();
+  const { invalidateProductsCache } = useFiltrosContext();
 
   const [images, setImages] = useState<ProductImage[]>([]);
 
@@ -356,6 +358,7 @@ export const JoyaForm = () => {
           clearTempProductId();
         }
 
+        invalidateProductsCache();
         navigate("/admin/productos");
       } else {
         // Step 1: Generate slug and save basic info, then go to edit mode
@@ -366,6 +369,7 @@ export const JoyaForm = () => {
         result = await createProduct(formDataWithSlug);
         // Store the temp ID for cancellation handling
         setTempProductId(result.id);
+        invalidateProductsCache();
         navigate(`/admin/productos/${result.id}/editar`);
       }
     } catch (err) {
