@@ -88,11 +88,11 @@ const DualRangeSlider = ({
     <div className="relative h-12 w-full">
       <div
         ref={trackRef}
-        className="absolute left-0 top-1/2 h-2 w-full -translate-y-1/2 rounded-full bg-metallic-gold-300 dark:bg-ocean-mist-600"
+        className="absolute left-0 top-1/2 h-2 w-full -translate-y-1/2 rounded-full bg-metallic-gold-300 dark:bg-ocean-mist-500"
       />
 
       <div
-        className="absolute top-1/2 h-2 -translate-y-1/2 rounded-full bg-metallic-gold-500"
+        className="absolute top-1/2 h-2 -translate-y-1/2 rounded-full bg-metallic-gold-500 dark:bg-ocean-mist-700"
         style={{
           left: `${minPercent}%`,
           width: `${maxPercent - minPercent}%`,
@@ -100,21 +100,21 @@ const DualRangeSlider = ({
       />
 
       <div
-        className="absolute top-1/2 h-6 w-3 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-sm bg-metallic-gold-100 shadow-md transition-transform hover:scale-105 active:scale-95"
+        className="absolute top-1/2 h-6 w-3 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-sm bg-metallic-gold-100 shadow-md transition-transform hover:scale-105 active:scale-95 dark:bg-ocean-mist-300"
         style={{ left: `${minPercent}%` }}
         onMouseDown={handleMouseDown("min")}
       />
 
       <div
-        className="absolute top-1/2 h-6 w-3 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-sm bg-metallic-gold-100 shadow-md transition-transform hover:scale-105 active:scale-95"
+        className="absolute top-1/2 h-6 w-3 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-sm bg-metallic-gold-100 shadow-md transition-transform hover:scale-105 active:scale-95 dark:bg-ocean-mist-300"
         style={{ left: `${maxPercent}%` }}
         onMouseDown={handleMouseDown("max")}
       />
 
-      <div className="absolute -bottom-5 left-0 text-xs text-metallic-gold-700 dark:text-ocean-mist-400">
+      <div className="absolute -bottom-5 left-0 text-xs text-metallic-gold-700 dark:text-ocean-mist-300">
         {formatValue(localMin)}
       </div>
-      <div className="absolute -bottom-5 right-0 text-xs text-metallic-gold-700 dark:text-ocean-mist-400">
+      <div className="absolute -bottom-5 right-0 text-xs text-metallic-gold-700 dark:text-ocean-mist-300">
         {formatValue(localMax)}
       </div>
     </div>
@@ -162,7 +162,7 @@ export const FiltrosCatalogoPanel = () => {
           <select
             value={filtros.materialId || ""}
             onChange={(e) => handleMaterialChange(e.target.value || null)}
-            className="mt-1 block w-full rounded-md border border-metallic-gold-300 bg-white px-3 py-2 text-sm text-metallic-gold-900 shadow-sm focus:border-metallic-gold-500 focus:outline-none focus:ring-1 focus:ring-metallic-gold-500 dark:border-ocean-mist-600 dark:bg-slate-800 dark:text-ocean-mist-100"
+            className="mt-1 block w-full rounded-md border border-metallic-gold-300 bg-white px-3 py-2 text-sm text-metallic-gold-900 shadow-sm focus:border-metallic-gold-500 focus:outline-none focus:ring-1 focus:ring-metallic-gold-500 dark:border-ocean-mist-500 dark:bg-slate-800 dark:text-ocean-mist-100"
           >
             <option value="">Todos los materiales</option>
             {materials.map((material) => (
@@ -215,7 +215,7 @@ export const FiltrosCatalogoPanel = () => {
                   onChange={() => handleTipoPiedraChange(stone.stone_type)}
                   className="h-4 w-4 rounded border-metallic-gold-300 text-metallic-gold-600 focus:ring-metallic-gold-500"
                 />
-                <span className="text-sm text-metallic-gold-700 dark:text-ocean-mist-400">
+                <span className="text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
                   {stone.stone_type}
                 </span>
               </label>
@@ -226,7 +226,7 @@ export const FiltrosCatalogoPanel = () => {
         <button
           type="button"
           onClick={limpiarFiltros}
-          className="w-full rounded-md border border-metallic-gold-300 px-4 py-2 text-sm font-medium text-metallic-gold-700 transition-colors hover:bg-metallic-gold-50 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500 focus:ring-offset-2 dark:border-ocean-mist-600 dark:text-ocean-mist-300 dark:hover:bg-ocean-mist-800"
+          className="w-full rounded-md border border-metallic-gold-300 px-4 py-2 text-sm font-medium text-metallic-gold-700 transition-colors hover:bg-metallic-gold-50 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500 focus:ring-offset-2 dark:border-ocean-mist-500 dark:text-ocean-mist-300 dark:hover:bg-ocean-mist-800"
         >
           Limpiar filtros
         </button>

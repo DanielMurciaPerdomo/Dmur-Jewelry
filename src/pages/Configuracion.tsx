@@ -97,7 +97,7 @@ export const Configuracion = () => {
                 value={formData.whatsapp_number}
                 onChange={handleChange}
                 placeholder="Ej: 5491112345678"
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
               <p className="mt-1 text-xs text-metallic-gold-500 dark:text-ocean-mist-400">
                 Incluye el código de país sin espacios ni símbolos.
@@ -112,7 +112,7 @@ export const Configuracion = () => {
                 name="business_name"
                 value={formData.business_name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
           </div>
@@ -132,7 +132,7 @@ export const Configuracion = () => {
               value={formData.currency}
               onChange={handleChange}
               placeholder="$"
-              className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500 w-24"
+              className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500 w-24"
             />
           </div>
         </div>

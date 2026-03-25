@@ -159,7 +159,7 @@ export const ImageUploader = ({
           onChange={handleFileChange}
           className="block w-full text-sm text-metallic-gold-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-metallic-gold-100 file:text-metallic-gold-700 hover:file:bg-metallic-gold-200 dark:file:bg-ocean-mist-800 dark:file:text-ocean-mist-200 dark:hover:file:bg-ocean-mist-700"
         />
-        <p className="mt-1 text-xs text-metallic-gold-500 dark:text-ocean-mist-400">
+        <p className="mt-1 text-xs text-metallic-gold-500 dark:text-ocean-mist-300">
           JPG, PNG, WebP. Máximo 5MB por imagen.
         </p>
       </div>

@@ -87,7 +87,7 @@ export const DetalleJoya = () => {
       <main className="mx-auto max-w-2xl p-6">
         <div className="rounded-lg border border-metallic-gold-200 bg-white p-8 text-center shadow-sm dark:border-ocean-mist-700 dark:bg-slate-900">
           <svg
-            className="mx-auto h-16 w-16 text-metallic-gold-400 dark:text-ocean-mist-500"
+            className="mx-auto h-16 w-16 text-metallic-gold-400 dark:text-ocean-mist-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -102,7 +102,7 @@ export const DetalleJoya = () => {
           <h2 className="mt-4 text-xl font-semibold text-metallic-gold-900 dark:text-ocean-mist-100">
             {error || "Producto no encontrado"}
           </h2>
-          <p className="mt-2 text-metallic-gold-600 dark:text-ocean-mist-400">
+          <p className="mt-2 text-metallic-gold-600 dark:text-ocean-mist-300">
             Lo sentimos, no pudimos cargar los detalles de este producto.
           </p>
           <div className="mt-6 flex justify-center gap-4">
@@ -120,7 +120,7 @@ export const DetalleJoya = () => {
 
   return (
     <main className="mx-auto max-w-6xl p-6">
-      <nav className="mb-6 flex items-center gap-2 text-sm text-metallic-gold-600 dark:text-ocean-mist-400">
+      <nav className="mb-6 flex items-center gap-2 text-sm text-metallic-gold-600 dark:text-ocean-mist-300">
         <Link
           to="/catalogo"
           className="transition-colors hover:text-metallic-gold-800 dark:hover:text-ocean-mist-200"
@@ -142,7 +142,7 @@ export const DetalleJoya = () => {
               />
             ) : (
               <div className="flex aspect-square w-full items-center justify-center">
-                <span className="text-metallic-gold-500 dark:text-ocean-mist-600">
+                <span className="text-metallic-gold-500 dark:text-ocean-mist-500">
                   Sin imagen disponible
                 </span>
               </div>
@@ -200,8 +200,8 @@ export const DetalleJoya = () => {
                   onClick={() => setCurrentImageIndex(index)}
                   className={`relative flex-shrink-0 overflow-hidden rounded-md border-2 transition-all ${
                     index === currentImageIndex
-                      ? "border-metallic-gold-500 ring-2 ring-metallic-gold-400 dark:border-ocean-mist-500 dark:ring-ocean-mist-400"
-                      : "border-transparent hover:border-metallic-gold-300 dark:hover:border-ocean-mist-600"
+                      ? "border-metallic-gold-500 ring-2 ring-metallic-gold-400 dark:border-ocean-mist-400 dark:ring-ocean-mist-300"
+                      : "border-transparent hover:border-metallic-gold-300 dark:hover:border-ocean-mist-500"
                   }`}
                 >
                   <img
@@ -217,7 +217,7 @@ export const DetalleJoya = () => {
 
         <div className="space-y-6">
           <div>
-            <p className="text-sm font-medium uppercase tracking-wider text-metallic-gold-500 dark:text-ocean-mist-400">
+            <p className="text-sm font-medium uppercase tracking-wider text-metallic-gold-500 dark:text-ocean-mist-300">
               {joya.product_type?.name}
             </p>
             <h1 className="mt-2 text-3xl font-bold text-metallic-gold-900 dark:text-ocean-mist-100">
@@ -234,19 +234,19 @@ export const DetalleJoya = () => {
             </h3>
             <dl className="space-y-3">
               <div className="flex justify-between">
-                <dt className="text-metallic-gold-600 dark:text-ocean-mist-400">Material</dt>
+                <dt className="text-metallic-gold-600 dark:text-ocean-mist-300">Material</dt>
                 <dd className="font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
                   {joya.material?.name || "No especificado"}
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-metallic-gold-600 dark:text-ocean-mist-400">Tipo</dt>
+                <dt className="text-metallic-gold-600 dark:text-ocean-mist-300">Tipo</dt>
                 <dd className="font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
                   {joya.product_type?.name}
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-metallic-gold-600 dark:text-ocean-mist-400">Peso</dt>
+                <dt className="text-metallic-gold-600 dark:text-ocean-mist-300">Peso</dt>
                 <dd className="font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
                   {joya.weight_grams.toFixed(2)} g
                 </dd>
@@ -266,7 +266,7 @@ export const DetalleJoya = () => {
                       {stone.stone_type}
                       {stone.stone_size && ` (${stone.stone_size})`}
                     </span>
-                    <span className="font-medium text-metallic-gold-600 dark:text-ocean-mist-400">
+                    <span className="font-medium text-metallic-gold-600 dark:text-ocean-mist-300">
                       x{stone.quantity}
                     </span>
                   </li>
@@ -287,7 +287,7 @@ export const DetalleJoya = () => {
           <div className="flex flex-col gap-3 sm:flex-row">
             <button
               onClick={handleAddToCart}
-              className="flex flex-1 items-center justify-center gap-2 rounded-md bg-metallic-gold-500 px-4 py-2.5 text-sm font-medium text-metallic-gold-950 shadow-sm transition hover:bg-metallic-gold-600 focus:outline-none focus:ring-2 focus:ring-metallic-gold-400 focus:ring-offset-2 dark:bg-ocean-mist-500 dark:text-slate-950 dark:hover:bg-ocean-mist-400 dark:focus:ring-ocean-mist-500 dark:focus:ring-offset-slate-950"
+              className="flex flex-1 items-center justify-center gap-2 rounded-md bg-metallic-gold-500 px-4 py-2.5 text-sm font-medium text-metallic-gold-950 shadow-sm transition hover:bg-metallic-gold-600 focus:outline-none focus:ring-2 focus:ring-metallic-gold-400 focus:ring-offset-2 dark:bg-ocean-mist-400 dark:text-slate-950 dark:hover:bg-ocean-mist-300 dark:focus:ring-ocean-mist-400 dark:focus:ring-offset-slate-950"
             >
               <svg
                 className="h-5 w-5 flex-shrink-0"
@@ -317,7 +317,7 @@ export const DetalleJoya = () => {
 
           <button
             onClick={() => navigate("/catalogo")}
-            className="flex w-full items-center justify-center gap-2 rounded-md border border-metallic-gold-300 bg-transparent px-4 py-2 text-sm font-medium text-metallic-gold-700 transition hover:bg-metallic-gold-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-400 focus:ring-offset-2 dark:border-ocean-mist-600 dark:text-ocean-mist-300 dark:hover:bg-ocean-mist-900/30"
+            className="flex w-full items-center justify-center gap-2 rounded-md border border-metallic-gold-300 bg-transparent px-4 py-2 text-sm font-medium text-metallic-gold-700 transition hover:bg-metallic-gold-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-400 focus:ring-offset-2 dark:border-ocean-mist-500 dark:text-ocean-mist-300 dark:hover:bg-ocean-mist-900/30"
           >
             Volver al Catálogo
           </button>

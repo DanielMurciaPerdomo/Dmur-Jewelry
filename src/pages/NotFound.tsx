@@ -11,7 +11,7 @@ export const NotFound = () => {
       </p>
       <Link
         to="/"
-        className="rounded-md bg-metallic-gold-500 px-4 py-2 text-sm font-medium text-metallic-gold-950 shadow-sm transition hover:bg-metallic-gold-600 dark:bg-ocean-mist-500 dark:text-slate-950 dark:hover:bg-ocean-mist-400"
+        className="rounded-md bg-metallic-gold-500 px-4 py-2 text-sm font-medium text-metallic-gold-950 shadow-sm transition hover:bg-metallic-gold-600 dark:bg-ocean-mist-400 dark:text-slate-950 dark:hover:bg-ocean-mist-300"
       >
         Volver al inicio
       </Link>

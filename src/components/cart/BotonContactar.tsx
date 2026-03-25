@@ -68,7 +68,7 @@ export const BotonContactar = ({ items, className = "" }: BotonContactarProps) =
           <span>Contactar por WhatsApp</span>
         </a>
       ) : (
-        <span className="inline-flex items-center justify-center gap-2 rounded-md bg-metallic-gold-200 px-5 py-3 text-base font-medium text-metallic-gold-700 opacity-50 cursor-not-allowed dark:bg-ocean-mist-800 dark:text-ocean-mist-400">
+        <span className="inline-flex items-center justify-center gap-2 rounded-md bg-metallic-gold-200 px-5 py-3 text-base font-medium text-metallic-gold-700 opacity-50 cursor-not-allowed dark:bg-ocean-mist-700 dark:text-ocean-mist-300">
           Cargando...
         </span>
       )}

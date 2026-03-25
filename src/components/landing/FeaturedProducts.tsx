@@ -26,7 +26,7 @@ const ProductCard = ({ joya, isActive }: { joya: JoyaWithRelations; isActive: bo
         <article
           className={`flex h-full flex-col overflow-hidden rounded-xl border-2 bg-white shadow-lg transition-shadow ${
             isActive
-              ? "border-metallic-gold-400 dark:border-ocean-mist-400 shadow-xl dark:bg-slate-900/90"
+              ? "border-metallic-gold-400 dark:border-ocean-mist-300 shadow-xl dark:bg-slate-900/90"
               : "border-metallic-gold-200 dark:border-ocean-mist-700 shadow-md hover:shadow-lg dark:bg-slate-900/80"
           }`}
         >
@@ -42,7 +42,7 @@ const ProductCard = ({ joya, isActive }: { joya: JoyaWithRelations; isActive: bo
                   loading="lazy"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center text-metallic-gold-500 dark:text-ocean-mist-600">
+                <div className="flex h-full w-full items-center justify-center text-metallic-gold-500 dark:text-ocean-mist-500">
                   <span className="text-sm">Sin imagen</span>
                 </div>
               )}
@@ -58,7 +58,7 @@ const ProductCard = ({ joya, isActive }: { joya: JoyaWithRelations; isActive: bo
             >
               {joya.name}
             </h3>
-            <p className="mt-1 text-base text-metallic-gold-600 dark:text-ocean-mist-400">
+            <p className="mt-1 text-base text-metallic-gold-600 dark:text-ocean-mist-300">
               {joya.product_type?.name}
               {joya.material?.name ? ` · ${joya.material.name}` : null}
             </p>
@@ -157,8 +157,8 @@ const FeaturedCarousel = ({ joyas }: CarouselProps) => {
             onClick={() => emblaApi?.scrollTo(index)}
             className={`h-2.5 rounded-full transition-all duration-300 ${
               index === selectedIndex
-                ? "w-8 bg-metallic-gold-500 dark:bg-ocean-mist-400"
-                : "w-2.5 bg-metallic-gold-300 hover:bg-metallic-gold-400 dark:bg-ocean-mist-600 dark:hover:bg-ocean-mist-500"
+                ? "w-8 bg-metallic-gold-500 dark:bg-ocean-mist-300"
+                : "w-2.5 bg-metallic-gold-300 hover:bg-metallic-gold-400 dark:bg-ocean-mist-500 dark:hover:bg-ocean-mist-400"
             }`}
             aria-label={`Ir a producto ${index + 1}`}
           />
@@ -173,7 +173,7 @@ export const FeaturedProducts = () => {
   const displayed = joyas.slice(0, MAX_FEATURED);
 
   return (
-    <section className="border-t border-metallic-gold-400/80 bg-metallic-gold-200 py-16 dark:border-ocean-mist-800 dark:bg-slate-950/50">
+    <section className="border-t border-metallic-gold-400/80 bg-metallic-gold-200 py-16 dark:border-ocean-mist-800 dark:bg-ocean-mist-800">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center font-serif text-3xl font-light tracking-tight text-metallic-gold-900 dark:text-ocean-mist-100 sm:text-4xl">
           Productos destacados
@@ -196,7 +196,7 @@ export const FeaturedProducts = () => {
           )}
 
           {!isLoading && !errorMessage && displayed.length === 0 && (
-            <p className="text-center text-base text-metallic-gold-700 dark:text-ocean-mist-400">
+            <p className="text-center text-base text-metallic-gold-700 dark:text-ocean-mist-300">
               Pronto verás aquí nuestras joyas destacadas.
             </p>
           )}
@@ -209,7 +209,7 @@ export const FeaturedProducts = () => {
             <div className="mt-12 flex justify-center">
               <Link
                 to="/catalogo"
-                className="inline-flex rounded-md bg-metallic-gold-500 px-5 py-2.5 text-base font-medium text-metallic-gold-950 transition hover:bg-metallic-gold-600 dark:bg-ocean-mist-500 dark:text-slate-950 dark:hover:bg-ocean-mist-400"
+                className="inline-flex rounded-md bg-metallic-gold-500 px-5 py-2.5 text-base font-medium text-metallic-gold-950 transition hover:bg-metallic-gold-600 dark:bg-ocean-mist-400 dark:text-slate-950 dark:hover:bg-ocean-mist-300"
               >
                 Ver catálogo completo
               </Link>

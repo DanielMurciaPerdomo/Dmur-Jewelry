@@ -146,7 +146,7 @@ export const MaterialesGrid = () => {
                 type="text"
                 value={newMaterialName}
                 onChange={(e) => setNewMaterialName(e.target.value)}
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
             <div>
@@ -157,7 +157,7 @@ export const MaterialesGrid = () => {
                 type="text"
                 value={newMaterialDescription}
                 onChange={(e) => setNewMaterialDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
             <div>
@@ -171,7 +171,7 @@ export const MaterialesGrid = () => {
                   onChange={(e) => setNewMaterialValue(parseFloat(e.target.value) || 0)}
                   step="0.01"
                   min="0"
-                  className="flex-1 px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                  className="flex-1 px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
                 />
                 <Button type="button" onClick={handleCreateNewMaterial} disabled={submitting}>
                   {submitting ? "Creando..." : "Crear"}
@@ -198,7 +198,7 @@ export const MaterialesGrid = () => {
                     type="text"
                     value={editedMaterial?.name || ""}
                     onChange={(e) => handleUpdateField("name", e.target.value)}
-                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
                   />
                 </div>
               ) : (
@@ -216,7 +216,7 @@ export const MaterialesGrid = () => {
                     type="text"
                     value={editedMaterial?.description || ""}
                     onChange={(e) => handleUpdateField("description", e.target.value)}
-                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
                   />
                 </div>
               ) : (
@@ -238,7 +238,7 @@ export const MaterialesGrid = () => {
                     }
                     step="0.01"
                     min="0"
-                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
                   />
                 ) : (
                   <p className="text-lg font-bold text-metallic-gold-900 dark:text-ocean-mist-100">

@@ -22,7 +22,7 @@ export const Materials = () => {
         ) : errorMessage ? (
           <div className="mt-12 text-center text-red-500">{errorMessage}</div>
         ) : materials.length === 0 ? (
-          <div className="mt-12 text-center text-metallic-gold-600 dark:text-ocean-mist-400">
+          <div className="mt-12 text-center text-metallic-gold-600 dark:text-ocean-mist-300">
             No hay materiales disponibles.
           </div>
         ) : (
@@ -30,7 +30,7 @@ export const Materials = () => {
             {materials.map((item) => (
               <article
                 key={item.id}
-                className="rounded-lg border border-metallic-gold-400 bg-metallic-gold-200 p-6 shadow-sm transition dark:border-ocean-mist-700 dark:bg-slate-900/60"
+                className="rounded-lg border border-metallic-gold-400 bg-metallic-gold-200 p-6 shadow-sm transition dark:border-ocean-mist-600 dark:bg-slate-900/60"
               >
                 <h3 className="text-center text-lg font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
                   {item.name}

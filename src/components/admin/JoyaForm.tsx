@@ -422,7 +422,7 @@ export const JoyaForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
             <div>
@@ -434,7 +434,7 @@ export const JoyaForm = () => {
                 name="sku"
                 value={formData.sku || ""}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
             <div>
@@ -448,7 +448,7 @@ export const JoyaForm = () => {
                 onChange={handleChange}
                 required
                 placeholder="C://..."
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
             <div>
@@ -460,7 +460,7 @@ export const JoyaForm = () => {
                 value={formData.material_id || ""}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               >
                 <option value="">Selecciona un material</option>
                 {materials.map((m) => (
@@ -479,7 +479,7 @@ export const JoyaForm = () => {
                 value={formData.product_type_id || ""}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               >
                 <option value="">Selecciona un tipo</option>
                 {productTypes.map((t) => (
@@ -501,7 +501,7 @@ export const JoyaForm = () => {
                 step="0.01"
                 min="0"
                 required
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
             <div className="md:col-span-2">
@@ -513,7 +513,7 @@ export const JoyaForm = () => {
                 value={formData.description || ""}
                 onChange={handleChange}
                 rows={3}
-                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
               />
             </div>
           </div>
@@ -535,7 +535,7 @@ export const JoyaForm = () => {
                 </label>
                 <div className="flex gap-2">
                   <select
-                    className="flex-1 px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
+                    className="flex-1 px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
                     onChange={(e) => handleAddExistingStone(e.target.value)}
                     defaultValue=""
                   >
@@ -568,14 +568,14 @@ export const JoyaForm = () => {
                       placeholder="Tipo (ej: Diamante)"
                       value={newStoneName}
                       onChange={(e) => setNewStoneName(e.target.value)}
-                      className="px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
+                      className="px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
                     />
                     <input
                       type="text"
                       placeholder="Tamaño (ej: 0.5ct)"
                       value={newStoneSize}
                       onChange={(e) => setNewStoneSize(e.target.value)}
-                      className="px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
+                      className="px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
                     />
                     <input
                       type="number"
@@ -584,7 +584,7 @@ export const JoyaForm = () => {
                       onChange={(e) => setNewStoneValue(parseFloat(e.target.value) || 0)}
                       step="0.01"
                       min="0"
-                      className="px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
+                      className="px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
                     />
                     <Button type="button" onClick={handleCreateAndAddStone}>
                       Guardar
@@ -596,7 +596,7 @@ export const JoyaForm = () => {
               {/* Selected Stones List */}
               {productStones.length > 0 && (
                 <div className="mt-4">
-                  <table className="min-w-full divide-y divide-metallic-gold-200 dark:divide-ocean-mist-700">
+                  <table className="min-w-full divide-y divide-metallic-gold-200 dark:divide-ocean-mist-600">
                     <thead className="bg-metallic-gold-100 dark:bg-slate-800">
                       <tr>
                         <th className="px-4 py-2 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase">
@@ -610,7 +610,7 @@ export const JoyaForm = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-slate-900 divide-y divide-metallic-gold-200 dark:divide-ocean-mist-700">
+                    <tbody className="bg-white dark:bg-slate-900 divide-y divide-metallic-gold-200 dark:divide-ocean-mist-600">
                       {productStones.map((ps) => (
                         <tr key={ps.stone_id}>
                           <td className="px-4 py-2 text-sm text-metallic-gold-900 dark:text-ocean-mist-100">
@@ -627,7 +627,7 @@ export const JoyaForm = () => {
                                 )
                               }
                               min="1"
-                              className="w-20 px-2 py-1 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
+                              className="w-20 px-2 py-1 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100"
                             />
                           </td>
                           <td className="px-4 py-2 text-right">
@@ -723,7 +723,7 @@ export const JoyaForm = () => {
                     readOnly
                     step="0.01"
                     min="0"
-                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-gray-100 dark:bg-slate-700 text-metallic-gold-900 dark:text-ocean-mist-100"
+                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-gray-100 dark:bg-slate-700 text-metallic-gold-900 dark:text-ocean-mist-100"
                   />
                 </div>
                 <div>
@@ -737,7 +737,7 @@ export const JoyaForm = () => {
                     onChange={handleChange}
                     step="0.01"
                     min="0"
-                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
                   />
                 </div>
                 <div>
@@ -751,7 +751,7 @@ export const JoyaForm = () => {
                     onChange={handleChange}
                     step="0.01"
                     min="0"
-                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+                    className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
                   />
                 </div>
               </div>

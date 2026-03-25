@@ -30,7 +30,7 @@ export const JoyaCard = ({ joya }: JoyaCardProps) => {
                 loading="lazy"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-metallic-gold-500 dark:text-ocean-mist-600">
+              <div className="flex h-full w-full items-center justify-center text-metallic-gold-500 dark:text-ocean-mist-500">
                 <span className="text-sm">Sin imagen</span>
               </div>
             )}
@@ -40,7 +40,7 @@ export const JoyaCard = ({ joya }: JoyaCardProps) => {
           <h3 className="line-clamp-2 text-lg font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
             {joya.name}
           </h3>
-          <p className="mt-1 text-base text-metallic-gold-600 dark:text-ocean-mist-400">
+          <p className="mt-1 text-base text-metallic-gold-600 dark:text-ocean-mist-300">
             {joya.product_type?.name}
             {joya.material?.name ? ` · ${joya.material.name}` : null}
           </p>

@@ -191,7 +191,7 @@ export const JoyaTabla = () => {
             type="text"
             id="searchName"
             autoComplete="off"
-            className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+            className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
             placeholder="Nombre del producto"
             value={inputName}
             onChange={(e) => setInputName(e.target.value)}
@@ -199,7 +199,7 @@ export const JoyaTabla = () => {
             onBlur={() => setTimeout(() => setShowNameSuggestions(false), 200)}
           />
           {showNameSuggestions && nameSuggestions.length > 0 && (
-            <ul className="absolute z-10 w-full bg-white dark:bg-slate-800 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
+            <ul className="absolute z-10 w-full bg-white dark:bg-slate-800 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
               {nameSuggestions.map((suggestion) => (
                 <li
                   key={suggestion.id}
@@ -207,7 +207,7 @@ export const JoyaTabla = () => {
                   onMouseDown={() => handleSelectNameSuggestion(suggestion)}
                 >
                   <div className="font-medium">{suggestion.name}</div>
-                  <div className="text-xs text-metallic-gold-500 dark:text-ocean-mist-400">
+                  <div className="text-xs text-metallic-gold-500 dark:text-ocean-mist-300">
                     SKU: {suggestion.sku || "N/A"}
                   </div>
                 </li>
@@ -228,7 +228,7 @@ export const JoyaTabla = () => {
             type="text"
             id="searchSku"
             autoComplete="off"
-            className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+            className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
             placeholder="SKU"
             value={inputSku}
             onChange={(e) => setInputSku(e.target.value)}
@@ -236,7 +236,7 @@ export const JoyaTabla = () => {
             onBlur={() => setTimeout(() => setShowSkuSuggestions(false), 200)}
           />
           {showSkuSuggestions && skuSuggestions.length > 0 && (
-            <ul className="absolute z-10 w-full bg-white dark:bg-slate-800 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
+            <ul className="absolute z-10 w-full bg-white dark:bg-slate-800 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
               {skuSuggestions.map((suggestion) => (
                 <li
                   key={suggestion.id}
@@ -244,7 +244,7 @@ export const JoyaTabla = () => {
                   onMouseDown={() => handleSelectSkuSuggestion(suggestion)}
                 >
                   <div className="font-medium">{suggestion.sku}</div>
-                  <div className="text-xs text-metallic-gold-500 dark:text-ocean-mist-400">
+                  <div className="text-xs text-metallic-gold-500 dark:text-ocean-mist-300">
                     {suggestion.name}
                   </div>
                 </li>
@@ -262,7 +262,7 @@ export const JoyaTabla = () => {
           </label>
           <select
             id="filterProductType"
-            className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-600 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
+            className="w-full px-3 py-2 border border-metallic-gold-300 dark:border-ocean-mist-500 rounded-md bg-white dark:bg-slate-800 text-metallic-gold-900 dark:text-ocean-mist-100 focus:outline-none focus:ring-2 focus:ring-metallic-gold-500"
             value={selectedProductTypeId}
             onChange={(e) => setSelectedProductTypeId(e.target.value)}
             disabled={productTypesLoading}
@@ -278,14 +278,14 @@ export const JoyaTabla = () => {
 
         <Button
           onClick={handleClearFilters}
-          className="bg-gray-500 hover:bg-gray-600 text-white min-w-[100px]"
+          className="bg-gray-500 hover:bg-gray-600 text-white min-w-[100px] dark:bg-ocean-mist-600 dark:hover:bg-ocean-mist-500"
         >
           Limpiar Filtros
         </Button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-metallic-gold-200 dark:divide-ocean-mist-700">
+        <table className="min-w-full divide-y divide-metallic-gold-200 dark:divide-ocean-mist-600">
           <thead className="bg-metallic-gold-100 dark:bg-slate-800">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-metallic-gold-700 dark:text-ocean-mist-300 uppercase tracking-wider">
@@ -308,7 +308,7 @@ export const JoyaTabla = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-slate-900 divide-y divide-metallic-gold-200 dark:divide-ocean-mist-700">
+          <tbody className="bg-white dark:bg-slate-900 divide-y divide-metallic-gold-200 dark:divide-ocean-mist-600">
             {products.map((product) => (
               <tr key={product.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
@@ -340,7 +340,7 @@ export const JoyaTabla = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                   <Link
                     to={`/admin/productos/${product.id}/editar`}
-                    className="text-metallic-gold-600 hover:text-metallic-gold-900 dark:text-ocean-mist-400 dark:hover:text-ocean-mist-100"
+                    className="text-metallic-gold-600 hover:text-metallic-gold-900 dark:text-ocean-mist-300 dark:hover:text-ocean-mist-100"
                   >
                     Editar
                   </Link>

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { buildWhatsappUrl, FALLBACK_WHATSAPP_NUMBER } from "../../utils/whatsapp";
 import logo from "../../assets/Dmur-logo.png";
+import logoDark from "../../assets/Dmur-logo-dark.png";
+import { useTheme } from "../../context/ThemeContext";
 
 type HeroProps = {
   whatsappNumber?: string | null;
@@ -8,6 +10,9 @@ type HeroProps = {
 };
 
 export const Hero = ({ whatsappNumber, businessName }: HeroProps) => {
+  const { theme } = useTheme();
+  const logoSrc = theme === "dark" ? logoDark : logo;
+
   const number = whatsappNumber?.replace(/\D/g, "") || FALLBACK_WHATSAPP_NUMBER;
   const message = `Hola! Me gustaría conocer más sobre las piezas de ${businessName || "D´mur Joyería"}.`;
   const whatsappHref = buildWhatsappUrl(number, message);
@@ -17,7 +22,7 @@ export const Hero = ({ whatsappNumber, businessName }: HeroProps) => {
       {/* Fondo: gradiente elegante; reemplazar por imagen local en src/assets cuando exista:
           style={{ backgroundImage: 'url(/hero-joyas.jpg)' }} + overlay */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-metallic-gold-200 via-metallic-gold-100 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
+        className="absolute inset-0 bg-gradient-to-br from-metallic-gold-200 via-metallic-gold-100 to-white dark:from-ocean-mist-800 dark:via-ocean-mist-900 dark:to-ocean-mist-950"
         aria-hidden
       />
       <div
@@ -27,11 +32,11 @@ export const Hero = ({ whatsappNumber, businessName }: HeroProps) => {
 
       <div className="relative mx-auto flex min-h-[75vh] max-w-5xl flex-col items-center justify-center px-4 py-20 text-center">
         <img
-          src={logo}
+          src={logoSrc}
           alt="Logo D'mur Joyería"
           className="h-[154px] w-auto object-contain md:h-48 lg:h-60"
         />
-        <p className="mt-2 text-sm font-medium uppercase tracking-[0.2em] text-metallic-gold-700 dark:text-ocean-mist-400">
+        <p className="mt-2 text-sm font-medium uppercase tracking-[0.2em] text-metallic-gold-700 dark:text-ocean-mist-300">
           ARTESANAL
         </p>
         <p className="mt-4 max-w-xl text-lg text-metallic-gold-800/90 dark:text-ocean-mist-200/95 sm:text-xl">
@@ -41,7 +46,7 @@ export const Hero = ({ whatsappNumber, businessName }: HeroProps) => {
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             to="/catalogo"
-            className="inline-flex items-center justify-center rounded-md bg-metallic-gold-500 px-6 py-3 text-base font-medium text-metallic-gold-950 shadow-sm transition hover:bg-metallic-gold-600 dark:bg-ocean-mist-500 dark:text-slate-950 dark:hover:bg-ocean-mist-400"
+            className="inline-flex items-center justify-center rounded-md bg-metallic-gold-500 px-6 py-3 text-base font-medium text-metallic-gold-950 shadow-sm transition hover:bg-metallic-gold-600 dark:bg-ocean-mist-500 dark:text-slate-950 dark:hover:bg-ocean-mist-300"
           >
             Ver catálogo
           </Link>

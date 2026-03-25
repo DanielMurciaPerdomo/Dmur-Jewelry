@@ -17,7 +17,7 @@ export const CarritoItemComponent = ({
   const alt = product.name;
 
   return (
-    <article className="flex gap-4 p-4 border border-metallic-gold-300 bg-white rounded-lg shadow-sm dark:border-ocean-mist-800 dark:bg-slate-900/80">
+    <article className="flex gap-4 p-4 border border-metallic-gold-300 bg-white rounded-lg shadow-sm dark:border-ocean-mist-700 dark:bg-slate-900/80">
       {/* Imagen */}
       <div className="w-20 h-20 flex-shrink-0 overflow-hidden rounded-md bg-metallic-gold-100 dark:bg-slate-800">
         {imageUrl ? (
@@ -34,7 +34,7 @@ export const CarritoItemComponent = ({
         <h3 className="text-base font-medium text-metallic-gold-900 dark:text-ocean-mist-100 truncate">
           {product.name}
         </h3>
-        <p className="text-sm text-metallic-gold-600 dark:text-ocean-mist-400 mt-0.5">
+        <p className="text-sm text-metallic-gold-600 dark:text-ocean-mist-300 mt-0.5">
           {product.product_type?.name || "Tipo no especificado"}
           {product.material?.name ? ` · ${product.material.name}` : ""}
         </p>
@@ -44,7 +44,7 @@ export const CarritoItemComponent = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => onUpdateQuantity(product.id, Math.max(1, quantity - 1))}
-              className="w-7 h-7 flex items-center justify-center rounded bg-metallic-gold-200 dark:bg-ocean-mist-700 text-metallic-gold-900 dark:text-ocean-mist-100 hover:bg-metallic-gold-300 dark:hover:bg-ocean-mist-600 transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded bg-metallic-gold-200 dark:bg-ocean-mist-600 text-metallic-gold-900 dark:text-ocean-mist-100 hover:bg-metallic-gold-300 dark:hover:bg-ocean-mist-600 transition-colors"
               aria-label="Reducir cantidad"
             >
               −
@@ -54,7 +54,7 @@ export const CarritoItemComponent = ({
             </span>
             <button
               onClick={() => onUpdateQuantity(product.id, quantity + 1)}
-              className="w-7 h-7 flex items-center justify-center rounded bg-metallic-gold-200 dark:bg-ocean-mist-700 text-metallic-gold-900 dark:text-ocean-mist-100 hover:bg-metallic-gold-300 dark:hover:bg-ocean-mist-600 transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded bg-metallic-gold-200 dark:bg-ocean-mist-600 text-metallic-gold-900 dark:text-ocean-mist-100 hover:bg-metallic-gold-300 dark:hover:bg-ocean-mist-600 transition-colors"
               aria-label="Aumentar cantidad"
             >
               +
@@ -62,7 +62,7 @@ export const CarritoItemComponent = ({
           </div>
 
           <div className="text-right">
-            <p className="text-sm text-metallic-gold-600 dark:text-ocean-mist-400">
+            <p className="text-sm text-metallic-gold-600 dark:text-ocean-mist-300">
               {formatCurrencyCOP(product.final_price)} x {quantity}
             </p>
             <p className="text-base font-semibold text-metallic-gold-900 dark:text-ocean-mist-100">
@@ -75,7 +75,7 @@ export const CarritoItemComponent = ({
       {/* Botón eliminar */}
       <button
         onClick={() => onRemove(product.id)}
-        className="self-start text-metallic-gold-500 hover:text-red-600 dark:text-ocean-mist-400 dark:hover:text-red-400 transition-colors"
+        className="self-start text-metallic-gold-500 hover:text-red-600 dark:text-ocean-mist-300 dark:hover:text-red-400 transition-colors"
         aria-label="Eliminar producto"
       >
         <svg

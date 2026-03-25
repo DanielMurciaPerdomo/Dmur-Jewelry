@@ -4,6 +4,7 @@ import { Navbar } from "./components/layout/Navbar";
 import { Footer } from "./components/layout/Footer";
 import { SettingsProvider, useSettingsContext } from "./context/SettingsContext";
 import { FiltrosProvider } from "./context/FiltrosContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const AppContent = () => {
   const { settings } = useSettingsContext();
@@ -26,11 +27,13 @@ const AppContent = () => {
 
 function App() {
   return (
-    <SettingsProvider>
-      <FiltrosProvider>
-        <AppContent />
-      </FiltrosProvider>
-    </SettingsProvider>
+    <ThemeProvider>
+      <SettingsProvider>
+        <FiltrosProvider>
+          <AppContent />
+        </FiltrosProvider>
+      </SettingsProvider>
+    </ThemeProvider>
   );
 }
 
