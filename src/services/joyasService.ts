@@ -149,12 +149,24 @@ const mapRawProduct = (row: RawProductRow): JoyaWithRelations => {
   };
 };
 
-export const fetchActiveProducts = async (): Promise<Joya[]> => {
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .eq("active", true)
-    .order("created_at", { ascending: false });
+export const fetchActiveProducts = async (filters?: {
+  name?: string;
+  sku?: string;
+  productTypeId?: string;
+}): Promise<Joya[]> => {
+  let query = supabase.from("products").select("*").eq("active", true);
+
+  if (filters?.name) {
+    query = query.ilike("name", `%${filters.name}%`);
+  }
+  if (filters?.sku) {
+    query = query.ilike("sku", `%${filters.sku}%`);
+  }
+  if (filters?.productTypeId) {
+    query = query.eq("product_type_id", filters.productTypeId);
+  }
+
+  const { data, error } = await query.order("created_at", { ascending: false });
 
   if (error) {
     throw error;
@@ -271,6 +283,34 @@ export const updateProduct = async (id: string, updates: Partial<Joya>): Promise
   }
 
   return data as Joya;
+};
+
+export const fetchProductSuggestionsByName = async (nameTerm: string): Promise<Joya[]> => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, name, slug, sku")
+    .ilike("name", `%${nameTerm}%`)
+    .limit(10)
+    .order("name", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+  return (data ?? []) as Joya[];
+};
+
+export const fetchProductSuggestionsBySku = async (skuTerm: string): Promise<Joya[]> => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, name, slug, sku")
+    .ilike("sku", `%${skuTerm}%`)
+    .limit(10)
+    .order("sku", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+  return (data ?? []) as Joya[];
 };
 
 export const deleteProduct = async (id: string): Promise<void> => {
