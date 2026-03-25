@@ -187,7 +187,7 @@ export const ImageUploader = ({
                 <button
                   type="button"
                   onClick={() => handleSetPrimary(image.id)}
-                  className="text-white text-xs bg-metallic-gold-600 px-2 py-1 rounded hover:bg-metallic-gold-700"
+                  className="text-white text-xs bg-metallic-gold-600 px-2 py-1 rounded hover:bg-metallic-gold-700 dark:bg-ocean-mist-600 dark:hover:bg-ocean-mist-700"
                   title="Establecer como principal"
                 >
                   Principal
