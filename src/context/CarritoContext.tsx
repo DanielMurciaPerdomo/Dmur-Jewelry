@@ -42,8 +42,23 @@ export const CarritoProvider = ({ children }: CarritoProviderProps) => {
   const value: CarritoContextValue = useMemo(
     () => ({
       items,
-      addItem: (item) => {
-        setItems((prev) => [...prev, item]);
+      addItem: (newItem) => {
+        setItems((prevItems) => {
+          const existingItemIndex = prevItems.findIndex(
+            (item) => item.product.id === newItem.product.id
+          );
+
+          if (existingItemIndex > -1) {
+            const updatedItems = [...prevItems];
+            updatedItems[existingItemIndex] = {
+              ...updatedItems[existingItemIndex],
+              quantity: updatedItems[existingItemIndex].quantity + newItem.quantity,
+            };
+            return updatedItems;
+          } else {
+            return [...prevItems, newItem];
+          }
+        });
       },
       removeItem: (id) => {
         setItems((prev) => prev.filter((item) => item.product.id !== id));
