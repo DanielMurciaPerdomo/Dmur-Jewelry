@@ -14,6 +14,8 @@ import { Configuracion } from "../pages/Configuracion";
 import { PiedrasTabla } from "../components/admin/PiedrasTabla";
 import { PiedrasForm } from "../components/admin/PiedrasForm";
 import { MaterialesGrid } from "../components/admin/MaterialesGrid";
+import { TiposProductoTabla } from "../components/admin/TiposProductoTabla";
+import { TiposProductoForm } from "../components/admin/TiposProductoForm";
 
 export const AppRouter = () => {
   return (
@@ -40,6 +42,9 @@ export const AppRouter = () => {
         <Route path="piedras" element={<PiedrasTabla />} />
         <Route path="piedras/nueva" element={<PiedrasForm />} />
         <Route path="piedras/:id/editar" element={<PiedrasForm />} />
+        <Route path="tipos" element={<TiposProductoTabla />} />
+        <Route path="tipos/nuevo" element={<TiposProductoForm />} />
+        <Route path="tipos/:id/editar" element={<TiposProductoForm />} />
         <Route path="materiales" element={<MaterialesGrid />} />
         <Route path="configuracion" element={<Configuracion />} />
       </Route>

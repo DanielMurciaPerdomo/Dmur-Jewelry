@@ -53,6 +53,14 @@ export const AdminLayout = () => {
             Piedras
           </NavLink>
           <NavLink
+            to="/admin/tipos"
+            className={({ isActive }) =>
+              `block px-4 py-2 rounded-md transition-colors ${isActive ? activeClass : inactiveClass}`
+            }
+          >
+            Tipos de Producto
+          </NavLink>
+          <NavLink
             to="/admin/materiales"
             className={({ isActive }) =>
               `block px-4 py-2 rounded-md transition-colors ${isActive ? activeClass : inactiveClass}`
