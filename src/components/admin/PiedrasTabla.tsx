@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Stone } from "../../types/joya.types";
 import { fetchStones, deleteStone } from "../../services/piedrasService";
 import { Button } from "../ui/Button";
+import { formatPrice } from "../../utils/formatters";
 
 export const PiedrasTabla = () => {
   const [stones, setStones] = useState<Stone[]>([]);
@@ -91,7 +92,7 @@ export const PiedrasTabla = () => {
                   {stone.stone_size}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
-                  ${stone.stone_value.toFixed(2)}
+                  ${formatPrice(stone.stone_value)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                   <Link

@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { fetchProductBySlug } from "../services/joyasService";
 import type { JoyaWithRelations } from "../types/joya.types";
-import { formatCurrencyCOP } from "../utils/formatters";
+import { formatCurrencyCOP, formatPrice } from "../utils/formatters";
 import { buildSingleProductMessage, buildWhatsappUrl } from "../utils/whatsapp";
 import { useCarrito } from "../hooks/useCarrito";
 import { useSettingsContext } from "../context/SettingsContext";
@@ -248,7 +248,7 @@ export const DetalleJoya = () => {
               <div className="flex justify-between">
                 <dt className="text-metallic-gold-600 dark:text-ocean-mist-300">Peso</dt>
                 <dd className="font-medium text-metallic-gold-900 dark:text-ocean-mist-100">
-                  {joya.weight_grams.toFixed(2)} g
+                  {formatPrice(joya.weight_grams)} g
                 </dd>
               </div>
             </dl>

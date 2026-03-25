@@ -4,6 +4,7 @@ import { Stone } from "../../types/joya.types";
 import { createStone, updateStone, fetchStoneById } from "../../services/piedrasService";
 import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
+import { toPascalCase } from "../../utils/formatters";
 
 export const PiedrasForm = () => {
   const { id } = useParams<{ id: string }>();
@@ -64,10 +65,16 @@ export const PiedrasForm = () => {
     setSubmitting(true);
 
     try {
+      const formDataPascal = {
+        ...formData,
+        stone_type: toPascalCase(formData.stone_type),
+        stone_size: toPascalCase(formData.stone_size),
+      };
+
       if (isEditing && id) {
-        await updateStone(id, formData);
+        await updateStone(id, formDataPascal);
       } else {
-        await createStone(formData);
+        await createStone(formDataPascal);
       }
       navigate("/admin/piedras");
     } catch (err) {

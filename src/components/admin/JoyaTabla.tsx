@@ -6,6 +6,7 @@ import { supabase } from "../../services/supabaseClient";
 import { Button } from "../ui/Button";
 import { useProductTypes } from "../../hooks/useProductTypes";
 import { useFiltrosContext } from "../../context/FiltrosContext";
+import { formatPrice } from "../../utils/formatters";
 
 const fetchProductSuggestionsByName = async (nameTerm: string) => {
   const { data, error } = await supabase
@@ -39,6 +40,7 @@ export const JoyaTabla = () => {
   const [products, setProducts] = useState<Joya[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Estados para los términos finales que filtran la tabla
   const [finalSearchName, setFinalSearchName] = useState("");
@@ -191,6 +193,17 @@ export const JoyaTabla = () => {
     } catch (err) {
       setError("Error al eliminar el producto.");
       console.error(err);
+    }
+  };
+
+  const handleCopyPath = async (path: string, id: string) => {
+    if (!path) return;
+    try {
+      await navigator.clipboard.writeText(path);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error("Error copying to clipboard:", err);
     }
   };
 
@@ -360,13 +373,18 @@ export const JoyaTabla = () => {
                   {product.name}
                 </td>
                 <td
-                  className="px-6 py-4 text-sm text-metallic-gold-700 dark:text-ocean-mist-300 max-w-xs truncate"
+                  className={`px-6 py-4 text-sm max-w-xs truncate cursor-pointer transition-colors ${
+                    copiedId === product.id
+                      ? "text-green-600 dark:text-green-400 font-semibold"
+                      : "text-metallic-gold-700 dark:text-ocean-mist-300 hover:text-metallic-gold-900 dark:hover:text-ocean-mist-100"
+                  }`}
                   title={product.phy_url}
+                  onClick={() => handleCopyPath(product.phy_url || "", product.id)}
                 >
-                  {product.phy_url || "-"}
+                  {copiedId === product.id ? "✓ Copiado!" : product.phy_url || "-"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
-                  ${product.final_price.toFixed(2)}
+                  ${formatPrice(product.final_price)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {product.active ? (

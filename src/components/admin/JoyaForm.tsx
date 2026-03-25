@@ -24,6 +24,7 @@ import { getProductImages } from "../../services/imagenesService";
 import { useMaterials } from "../../hooks/useMaterials";
 import { useProductTypes } from "../../hooks/useProductTypes";
 import { useStones } from "../../hooks/useStones";
+import { formatPrice, toPascalCase } from "../../utils/formatters";
 
 export const JoyaForm = () => {
   const { id } = useParams<{ id: string }>();
@@ -248,8 +249,8 @@ export const JoyaForm = () => {
 
     try {
       const newStone = await createStone({
-        stone_type: newStoneName,
-        stone_size: newStoneSize,
+        stone_type: toPascalCase(newStoneName),
+        stone_size: toPascalCase(newStoneSize),
         stone_value: newStoneValue,
       });
 
@@ -339,9 +340,15 @@ export const JoyaForm = () => {
 
     try {
       let result: Joya;
+      const formDataPascal = {
+        ...formData,
+        name: toPascalCase(formData.name),
+        description: formData.description ? toPascalCase(formData.description) : "",
+      };
+
       if (isEditing && id) {
         // Step 2: Save everything
-        result = await updateProduct(id, formData);
+        result = await updateProduct(id, formDataPascal);
 
         // Save stone associations
         await deleteProductStonesByProduct(id);
@@ -362,10 +369,14 @@ export const JoyaForm = () => {
         navigate("/admin/productos");
       } else {
         // Step 1: Generate slug and save basic info, then go to edit mode
-        const selectedMaterial = materials.find((m) => m.id === formData.material_id);
+        const selectedMaterial = materials.find((m) => m.id === formDataPascal.material_id);
         const materialName = selectedMaterial?.name || "";
-        const generatedSlug = generateSlug(formData.name, materialName, formData.sku || "");
-        const formDataWithSlug = { ...formData, slug: generatedSlug };
+        const generatedSlug = generateSlug(
+          formDataPascal.name,
+          materialName,
+          formDataPascal.sku || ""
+        );
+        const formDataWithSlug = { ...formDataPascal, slug: generatedSlug };
         result = await createProduct(formDataWithSlug);
         // Store the temp ID for cancellation handling
         setTempProductId(result.id);
@@ -671,17 +682,18 @@ export const JoyaForm = () => {
                   <div>
                     <span className="text-metallic-gold-700 dark:text-ocean-mist-300">
                       Costo Material ({formData.weight_grams}g × $
-                      {materials
-                        .find((m) => m.id === formData.material_id)
-                        ?.value_per_gram?.toFixed(2) || "0.00"}
+                      {formatPrice(
+                        materials.find((m) => m.id === formData.material_id)?.value_per_gram || 0
+                      )}
                       /g):
                     </span>
                     <span className="font-semibold text-metallic-gold-900 dark:text-ocean-mist-100 ml-2">
                       $
-                      {(
+                      {formatPrice(
                         formData.weight_grams *
-                        (materials.find((m) => m.id === formData.material_id)?.value_per_gram || 0)
-                      ).toFixed(2)}
+                          (materials.find((m) => m.id === formData.material_id)?.value_per_gram ||
+                            0)
+                      )}
                     </span>
                   </div>
                   <div>
@@ -690,10 +702,10 @@ export const JoyaForm = () => {
                     </span>
                     <span className="font-semibold text-metallic-gold-900 dark:text-ocean-mist-100 ml-2">
                       $
-                      {(
+                      {formatPrice(
                         productTypes.find((pt) => pt.id === formData.product_type_id)?.type_value ||
-                        0
-                      ).toFixed(2)}
+                          0
+                      )}
                     </span>
                   </div>
                   <div>
@@ -702,14 +714,14 @@ export const JoyaForm = () => {
                     </span>
                     <span className="font-semibold text-metallic-gold-900 dark:text-ocean-mist-100 ml-2">
                       $
-                      {productStones
-                        .reduce((total, ps) => {
+                      {formatPrice(
+                        productStones.reduce((total, ps) => {
                           if (ps.stone && ps.quantity > 0) {
                             return total + ps.stone.stone_value * ps.quantity;
                           }
                           return total;
                         }, 0)
-                        .toFixed(2)}
+                      )}
                     </span>
                   </div>
                 </div>

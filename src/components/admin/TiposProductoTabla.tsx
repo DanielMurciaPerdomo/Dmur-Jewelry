@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ProductType } from "../../types/joya.types";
 import { fetchProductTypes, deleteProductType } from "../../services/productTypesService";
 import { Button } from "../ui/Button";
+import { formatPrice } from "../../utils/formatters";
 
 export const TiposProductoTabla = () => {
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
@@ -85,7 +86,7 @@ export const TiposProductoTabla = () => {
                   {pt.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-metallic-gold-700 dark:text-ocean-mist-300">
-                  ${pt.type_value.toFixed(2)}
+                  ${formatPrice(pt.type_value)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                   <Link

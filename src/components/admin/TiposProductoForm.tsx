@@ -8,6 +8,7 @@ import {
 } from "../../services/productTypesService";
 import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
+import { toPascalCase } from "../../utils/formatters";
 
 export const TiposProductoForm = () => {
   const { id } = useParams<{ id: string }>();
@@ -65,10 +66,15 @@ export const TiposProductoForm = () => {
     setSubmitting(true);
 
     try {
+      const formDataPascal = {
+        ...formData,
+        name: toPascalCase(formData.name),
+      };
+
       if (isEditing && id) {
-        await updateProductType(id, formData);
+        await updateProductType(id, formDataPascal);
       } else {
-        await createProductType(formData);
+        await createProductType(formDataPascal);
       }
       navigate("/admin/tipos");
     } catch (err) {

@@ -10,6 +10,11 @@ let cacheStatus: Status = "idle";
 let cacheError: string | null = null;
 let promise: Promise<Material[]> | null = null;
 
+export const invalidateMaterialsCache = () => {
+  cachedMaterials = null;
+  promise = null;
+};
+
 export const useMaterials = () => {
   const [materials, setMaterials] = useState<Material[]>(cachedMaterials || []);
   const [status, setStatus] = useState<Status>(cacheStatus);

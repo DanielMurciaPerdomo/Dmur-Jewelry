@@ -8,6 +8,9 @@ import {
 } from "../../services/materialsService";
 import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
+import { useFiltrosContext } from "../../context/FiltrosContext";
+import { invalidateMaterialsCache } from "../../hooks/useMaterials";
+import { formatPrice, toPascalCase } from "../../utils/formatters";
 
 export const MaterialesGrid = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
@@ -20,6 +23,7 @@ export const MaterialesGrid = () => {
   const [newMaterialDescription, setNewMaterialDescription] = useState("");
   const [newMaterialValue, setNewMaterialValue] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
+  const { invalidateProductsCache } = useFiltrosContext();
 
   useEffect(() => {
     loadMaterials();
@@ -58,6 +62,8 @@ export const MaterialesGrid = () => {
         materials.map((m) => (m.id === editingMaterialId ? { ...m, ...editedMaterial } : m))
       );
       handleCancelEdit();
+      invalidateProductsCache();
+      invalidateMaterialsCache();
     } catch (err) {
       setError("Error al guardar los cambios del material.");
       console.error(err);
@@ -87,8 +93,8 @@ export const MaterialesGrid = () => {
     setSubmitting(true);
     try {
       const created = await createMaterial({
-        name: newMaterialName,
-        description: newMaterialDescription,
+        name: toPascalCase(newMaterialName),
+        description: toPascalCase(newMaterialDescription),
         value_per_gram: newMaterialValue,
       });
       setMaterials([...materials, created]);
@@ -242,7 +248,7 @@ export const MaterialesGrid = () => {
                   />
                 ) : (
                   <p className="text-lg font-bold text-metallic-gold-900 dark:text-ocean-mist-100">
-                    ${material.value_per_gram.toFixed(2)}
+                    ${formatPrice(material.value_per_gram)}
                   </p>
                 )}
               </div>
