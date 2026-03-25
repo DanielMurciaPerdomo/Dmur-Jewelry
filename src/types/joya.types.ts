@@ -82,3 +82,12 @@ export interface CarritoContextValue {
   removeItem: (productId: string) => void;
   clear: () => void;
 }
+
+export interface FiltrosCatalogo {
+  materialId: string | null;
+  piedrasMin: number;
+  piedrasMax: number;
+  precioMin: number;
+  precioMax: number;
+  tiposPiedra: string[];
+}

@@ -3,6 +3,7 @@ import { AppRouter } from "./router/AppRouter";
 import { Navbar } from "./components/layout/Navbar";
 import { Footer } from "./components/layout/Footer";
 import { SettingsProvider, useSettingsContext } from "./context/SettingsContext";
+import { FiltrosProvider } from "./context/FiltrosContext";
 
 const AppContent = () => {
   const { settings } = useSettingsContext();
@@ -26,7 +27,9 @@ const AppContent = () => {
 function App() {
   return (
     <SettingsProvider>
-      <AppContent />
+      <FiltrosProvider>
+        <AppContent />
+      </FiltrosProvider>
     </SettingsProvider>
   );
 }
